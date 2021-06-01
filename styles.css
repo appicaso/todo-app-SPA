@@ -7,17 +7,19 @@
 }
 
 :root {
-  --headingbg: #1e1a61;
-  --menubg: #fafafa;
-  --bodybg: #f3f1f7;
-  --sectionbg: #ffffff;
+  --headingbg: #260658;
+  --menubg: #31066d;
+  --bodybg: #ccc9f4;
+  --sectionbg: #ece4fc;
   --lighttext: #f9f9f9;
   --darkbg: #0b0425;
   --lightbg: #f4f8fe;
   --btncolor: #331ab1;
-  --list-item-container-color: rgba(70, 8, 173, 0.07);
-  --addbtnncolor: rgb(75, 90, 208);
-  --ui-buttons: rgb(21, 114, 66);
+  --list-item-container-color: #5337b6;
+  --addbtnncolor: #ffcd2c;
+  --ui-buttons-signup: rgb(73, 89, 211);
+  --ui-buttons-login: rgb(82, 48, 182);
+  --font-family: "Open Sans", sans-serif;
 }
 
 html,
@@ -26,15 +28,23 @@ body {
 }
 
 body {
-  font-family: "Nunito Sans", sans-serif;
+  font-family: --var(--font-family);
 }
 
 .description {
-  font-size: 25px;
+  font-size: 5em;
+}
+
+.lists {
+  display: flex;
+  justify-content: center;
+}
+
+.list-items {
+  width: 80%;
 }
 
 .list-item-container {
-  width: 90%;
   height: 60px;
   background-color: var(--list-item-container-color);
   margin-top: 10px;
@@ -42,19 +52,19 @@ body {
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  border-radius: 10px;
-  color: rgba(100, 93, 235, 0.838);
+  border-radius: 6px;
+  color: rgba(190, 187, 245, 0.838);
   box-shadow: 0 4px 3px rgba(25, 14, 94, 0.2);
 }
 
 .list-item-container:hover {
-  background-color: #5344a0;
+  background-color: #6258d6;
   color: rgba(235, 240, 245, 0.9);
 }
 
 .list-item {
   list-style-type: none;
-  font-size: 0.98em;
+  font-size: 0.999em;
 }
 
 .body-wrapper {
@@ -84,7 +94,7 @@ body {
 
 .description {
   color: var(--lighttext);
-  font-size: 0.9em;
+  font-size: 0.925em;
   margin-top: 3px;
   font-weight: 100;
 }
@@ -120,7 +130,7 @@ body {
   padding: 25px;
   background-color: var(--sectionbg);
   box-shadow: 0 -1px 20px rgba(14, 56, 101, 0.1);
-  border-radius: 20px;
+  border-radius: 16px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -129,14 +139,19 @@ body {
 
 .signupbtn,
 .loginbtn {
-  background-color: var(--ui-buttons);
+  background-color: var(--ui-buttons-signup);
   color: var(--lighttext);
   width: 150px;
   height: 50px;
-  border-radius: 20px;
+  border-radius: 10px;
   margin: 5px;
   cursor: pointer;
   border: none;
+  font-family: var(--font-family);
+}
+
+.loginbtn {
+  background-color: var(--ui-buttons-login);
 }
 
 .signupbtn:hover,
@@ -146,7 +161,7 @@ body {
 
 .addBtn {
   background-color: var(--addbtnncolor);
-  color: #fafafa;
+  color: #4518cd;
   width: 150px;
   height: 60px;
   border-radius: 20px;
