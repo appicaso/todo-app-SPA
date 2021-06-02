@@ -19,7 +19,7 @@
   --addbtnncolor: #ffcd2c;
   --ui-buttons-signup: rgb(73, 89, 211);
   --ui-buttons-login: rgb(82, 48, 182);
-  --font-family: "Open Sans", sans-serif;
+  --font-family: 'Open Sans', sans-serif;
 }
 
 html,
@@ -74,8 +74,8 @@ body {
   grid-template-rows: 100px auto;
   gap: 0px 0px;
   grid-template-areas:
-    "head head head head head head head head head head head head"
-    "menu menu section section section section section section section section section section";
+    'head head head head head head head head head head head head'
+    'menu menu section section section section section section section section section section';
 }
 
 .heading {
@@ -106,12 +106,28 @@ body {
 }
 
 .add-btn-container {
-  margin: 50px 10px 0px 20px;
+  margin: 10px 0px 10px 0px;
+  width: 100%;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .list-items {
   color: var(--lighttext);
   font-weight: 400;
+}
+
+.todo-item-container {
+  width: 50ch;
+  background-color: rgb(201, 198, 198);
+  height: 45px;
+  margin-bottom: 10px;
+}
+
+.todo-item {
+  list-style-type: none;
 }
 
 .main-content {
@@ -165,10 +181,19 @@ body {
   width: 150px;
   height: 60px;
   border-radius: 20px;
-  margin: 20px 0px 20px 0px;
   border: none;
   box-shadow: 0 -1px 20px rgba(0, 0, 0, 0.4);
   cursor: pointer;
+  position: fixed;
+  top: 128px;
+  left: 50px;
+  font-size: 0.86em;
+  font-weight: 500;
+  font-family: var(--font-family);
+}
+
+.addBtn:hover {
+  background-color: #83fff7;
 }
 
 .ctaBtn {
@@ -190,13 +215,13 @@ body {
   width: 65%;
 }
 
-input[type="submit"] {
+input[type='submit'] {
   cursor: pointer;
 }
 
-input[type="text"],
-input[type="password"],
-input[type="email"] {
+input[type='text'],
+input[type='password'],
+input[type='email'] {
   border-radius: 20px;
   height: 40px;
   border: 2px solid rgba(66, 74, 158, 0.2);
@@ -207,7 +232,7 @@ input[type="email"] {
   min-width: 275px;
 }
 
-input[type="submit"] {
+input[type='submit'] {
   border-radius: 20px;
   background-color: var(--btncolor);
   color: var(--lighttext);
