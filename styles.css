@@ -119,15 +119,38 @@ body {
   font-weight: 400;
 }
 
+.list-name {
+  font-family: var(--font-family);
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+
+.list-info-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 90%;
+  margin: 25px 0px 25px 0px;
+}
+
 .todo-item-container {
   width: 50ch;
-  background-color: rgb(201, 198, 198);
+  border: 2px solid #9497e9;
   height: 45px;
   margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 25px 0px 25px;
+  overflow: scroll;
 }
 
 .todo-item {
   list-style-type: none;
+}
+
+#todo {
+  height: 50px;
 }
 
 .main-content {
@@ -139,11 +162,17 @@ body {
   background-color: var(--bodybg);
 }
 
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+}
+
 .section {
   min-width: 350px;
   width: 55%;
-  height: 75%;
-  padding: 25px;
   background-color: var(--sectionbg);
   box-shadow: 0 -1px 20px rgba(14, 56, 101, 0.1);
   border-radius: 16px;
@@ -151,6 +180,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 50px 0px 50px 0px;
 }
 
 .signupbtn,
@@ -190,6 +220,7 @@ body {
   font-size: 0.86em;
   font-weight: 500;
   font-family: var(--font-family);
+  z-index: 100;
 }
 
 .addBtn:hover {
@@ -260,3 +291,122 @@ input[type='submit'] {
 .selected {
   font-weight: 700;
 }
+
+/* Button Bounce Animation START */
+.bounce-top {
+  -webkit-animation: bounce-top 0.9s both;
+  animation: bounce-top 0.9s both;
+}
+
+hr.horizontal-divider {
+  border-top: 1px solid rgb(169, 165, 165);
+  width: 100%;
+  margin: 15px;
+}
+
+@-webkit-keyframes bounce-top {
+  0% {
+    -webkit-transform: translateY(-45px);
+    transform: translateY(-45px);
+    -webkit-animation-timing-function: ease-in;
+    animation-timing-function: ease-in;
+    opacity: 1;
+  }
+  24% {
+    opacity: 1;
+  }
+  40% {
+    -webkit-transform: translateY(-24px);
+    transform: translateY(-24px);
+    -webkit-animation-timing-function: ease-in;
+    animation-timing-function: ease-in;
+  }
+  65% {
+    -webkit-transform: translateY(-12px);
+    transform: translateY(-12px);
+    -webkit-animation-timing-function: ease-in;
+    animation-timing-function: ease-in;
+  }
+  82% {
+    -webkit-transform: translateY(-6px);
+    transform: translateY(-6px);
+    -webkit-animation-timing-function: ease-in;
+    animation-timing-function: ease-in;
+  }
+  93% {
+    -webkit-transform: translateY(-4px);
+    transform: translateY(-4px);
+    -webkit-animation-timing-function: ease-in;
+    animation-timing-function: ease-in;
+  }
+  25%,
+  55%,
+  75%,
+  87% {
+    -webkit-transform: translateY(0px);
+    transform: translateY(0px);
+    -webkit-animation-timing-function: ease-out;
+    animation-timing-function: ease-out;
+  }
+  100% {
+    -webkit-transform: translateY(0px);
+    transform: translateY(0px);
+    -webkit-animation-timing-function: ease-out;
+    animation-timing-function: ease-out;
+    opacity: 1;
+  }
+}
+@keyframes bounce-top {
+  0% {
+    -webkit-transform: translateY(-45px);
+    transform: translateY(-45px);
+    -webkit-animation-timing-function: ease-in;
+    animation-timing-function: ease-in;
+    opacity: 1;
+  }
+  24% {
+    opacity: 1;
+  }
+  40% {
+    -webkit-transform: translateY(-24px);
+    transform: translateY(-24px);
+    -webkit-animation-timing-function: ease-in;
+    animation-timing-function: ease-in;
+  }
+  65% {
+    -webkit-transform: translateY(-12px);
+    transform: translateY(-12px);
+    -webkit-animation-timing-function: ease-in;
+    animation-timing-function: ease-in;
+  }
+  82% {
+    -webkit-transform: translateY(-6px);
+    transform: translateY(-6px);
+    -webkit-animation-timing-function: ease-in;
+    animation-timing-function: ease-in;
+  }
+  93% {
+    -webkit-transform: translateY(-4px);
+    transform: translateY(-4px);
+    -webkit-animation-timing-function: ease-in;
+    animation-timing-function: ease-in;
+  }
+  25%,
+  55%,
+  75%,
+  87% {
+    -webkit-transform: translateY(0px);
+    transform: translateY(0px);
+    -webkit-animation-timing-function: ease-out;
+    animation-timing-function: ease-out;
+  }
+  100% {
+    -webkit-transform: translateY(0px);
+    transform: translateY(0px);
+    -webkit-animation-timing-function: ease-out;
+    animation-timing-function: ease-out;
+    opacity: 1;
+  }
+}
+
+/* BUTTON BOUNCE ANIMATION END */

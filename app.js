@@ -6,6 +6,7 @@ const listItems = document.querySelector('.list-items');
 const listItem = document.querySelector('.list-item');
 const lists = JSON.parse(localStorage.getItem('lists')) || [];
 const registeredUsers = JSON.parse(localStorage.getItem('users')) || [];
+const section = document.querySelector('.section');
 
 async function fetchHtml(url) {
   return await (await fetch(url)).text();
@@ -13,7 +14,6 @@ async function fetchHtml(url) {
 
 async function loadNewContent(clickedlink) {
   const content = document.querySelector('.main-content');
-
   content.innerHTML = await fetchHtml(clickedlink + '.html');
 
   if (location.hash === '#signup') {
@@ -50,19 +50,45 @@ async function loadNewContent(clickedlink) {
       createNewTodo();
     });
   }
+
+  animateSection(section);
+}
+
+function animateSection(section) {
+  if (section.classList.contains('animate__fadeInLeftBig')) {
+    section.classList.remove('animate__animated');
+    section.classList.remove('animate__bounceInUp');
+    section.classList.add('animate__animated');
+    section.classList.add('animate__bounceInUp');
+  } else {
+    section.classList.add('animate__animated');
+    section.classList.add('animate__bounceInUp');
+  }
 }
 
 listContainer.addEventListener('click', (e) => {
   const clickedListId = e.target.id;
+  const clickedListName = e.target.innerText;
 
   if (e.target.tagName.toLowerCase() === 'div' || e.target.tagName.toLowerCase() === 'li') {
     location.hash = 'todo';
-    selectList(clickedListId);
+    selectList(clickedListId, clickedListName);
     setTimeout(() => {
       appendTodosToView(clickedListId);
+      getSelectedListInfo();
     }, 100);
   }
 });
+
+const getSelectedListInfo = () => {
+  const selectedListName = localStorage.getItem('selected.listName');
+  const selectedListID = localStorage.getItem('selected.listID');
+  const listNameElement = document.querySelector('.list-name');
+  const listIdElement = document.querySelector('.list-id');
+
+  listNameElement.innerText = selectedListName;
+  listIdElement.innerText = '#' + selectedListID;
+};
 
 const formValidation = () => {
   const userForm = Array.from(form[0]);
@@ -140,7 +166,11 @@ const createNewList = () => {
   lists.push(newListObj);
   localStorage.setItem('lists', JSON.stringify(lists));
   appendListsToView();
-  selectList(newListObj.id);
+  selectList(newListObj.id, newListName);
+
+  setTimeout(() => {
+    getSelectedListInfo();
+  }, 100);
 };
 
 function generateUniqueID() {
@@ -188,15 +218,16 @@ const createNewTodo = () => {
   appendTodosToView(relatedListId);
 };
 
-function selectList(selectedListId) {
+function selectList(selectedListId, selectedListName) {
   const selectedListElement = document.getElementById(selectedListId);
   selectedListElement.classList.add('selected');
   localStorage.setItem('selected.listID', selectedListId);
+  localStorage.setItem('selected.listName', selectedListName);
 }
 
 const appendTodosToView = (listID) => {
   const todoItems = document.querySelector('.todo-items');
-  console.log(todoItems);
+
   // Reset all LI elements containing todos.
   if (document.body.contains(todoItems)) {
     clearElementsFromView(todoItems);
@@ -208,22 +239,38 @@ const appendTodosToView = (listID) => {
   findMatchingListId.todos.forEach((todo) => {
     const generatedDivcontainer = document.createElement('div');
     const generatedLiElement = document.createElement('li');
+    const generatedTrashIcon = document.createElement('i');
 
     generatedDivcontainer.classList.add('todo-item-container');
     generatedDivcontainer.id = todo.id;
     todoItems.appendChild(generatedDivcontainer);
 
     generatedLiElement.id = todo.id;
-    generatedLiElement.classList.add('todo-itemsa');
+    generatedLiElement.classList.add('todo-item');
     generatedLiElement.innerText = todo.todoItem;
     generatedDivcontainer.appendChild(generatedLiElement);
+
+    generatedTrashIcon.classList.add('fas', 'fa-trash');
+    generatedDivcontainer.appendChild(generatedTrashIcon);
   });
 };
 
-// Event listeners
+// Window Event listeners
 window.addEventListener('hashchange', () => {
   const clickedlink = location.hash.substr(1);
   loadNewContent(clickedlink);
+});
+
+window.addEventListener('DOMContentLoaded', (e) => {
+  const addBtn = document.querySelector('.addBtn');
+  const listItemContainers = document.querySelectorAll('.list-item-container');
+
+  animateSection(section);
+
+  addBtn.classList.add('animate__animated', 'animate__bounceInDown');
+  listItemContainers.forEach((item) => {
+    item.classList.add('animate__animated', 'animate__slideInLeft');
+  });
 });
 
 //DO ON LOAD
