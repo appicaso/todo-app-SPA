@@ -4,8 +4,8 @@
   const form = document.getElementsByTagName('form');
   const listContainer = document.querySelector('.lists');
   const listItems = document.querySelector('.list-items');
-  const listItemsArray = Array.from(listItems);
-  const listItem = document.querySelector('.list-item');
+  //const listItemsArray = Array.from(listItems);
+  //const listItem = document.querySelector('.list-item');
   const lists = JSON.parse(localStorage.getItem('lists')) || [];
   const registeredUsers = JSON.parse(localStorage.getItem('users')) || [];
   const section = document.querySelector('.section');
@@ -156,6 +156,7 @@
     registeredUsers.push(newUser);
     localStorage.setItem('users', JSON.stringify(registeredUsers));
     console.log('user is registered!');
+    location.hash = '#login';
   };
 
   function createNewUser(inputFields) {
