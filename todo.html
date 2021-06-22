@@ -1,15 +1,28 @@
 <div class="section todos">
+  <div class="todo-controls">
+    <button class="rename-list">RENAME LIST</button>
+    <button class="delete-list-btn">DELETE LIST</button>
+  </div>
   <div class="list-info-container">
     <p class="list-name">Test Name</p>
+    <button class="save-list-name-btn">Save</button>
     <p class="list-id">Test ID</p>
   </div>
 
   <hr class="horizontal-divider" />
 
-  <form class="form" action="javascript:;">
-    <label for="todo">Add some todo's to your list</label>
-    <input type="text" id="todo" name="todo" required /><br /><br />
-  </form>
+  <div class="form-container">
+    <form class="form" action="javascript:;">
+      <label for="todo">Add some todo's to your list</label>
+      <div class="add-todo-form-group">
+        <input class="new-todo-input" type="text" id="todo" name="todo" placeholder="Enter a todo name" required />
+        <i class="todoaddicon fas fa-plus fa-lg"></i><br /><br />
+      </div>
+    </form>
+  </div>
+
+  <hr class="horizontal-divider" />
+
   <div class="todo-container">
     <ul class="todo-items" id="todo-items"></ul>
   </div>

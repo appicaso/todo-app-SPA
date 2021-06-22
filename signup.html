@@ -1,5 +1,5 @@
 <div class="section signupform">
-  <p>Login to your account</p>
+  <p class="text">Sign-up TODAY!</p>
   <form class="form" id="form" action="javascript:;" novalidate>
     <label for="fname">First name:</label>
     <input type="text" id="fname" name="firstname" required />
@@ -9,6 +9,11 @@
     <input type="email" id="email" name="email" required />
     <label for="pass">Password:</label>
     <input type="password" id="pass" name="password" required />
+    <div class="checkbox-wrapper">
+      <input type="checkbox" id="check" name="check" hidden />
+      <label class="custom-checkbox" for="check"></label>
+      <p class="term-agreement">By signing up to this app, you agree to our Terms & Conditions & Privacy Policy</p>
+    </div>
     <input type="submit" value="Submit" />
   </form>
 </div>
