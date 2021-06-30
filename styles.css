@@ -8,21 +8,21 @@
 }
 
 :root {
-  --headingbg: #393ec4;
+  --headingbg: #50808e;
   --menubg: #f9fafc;
   --bodybg: linear-gradient(to right, #ffffff, #fafaf9);
-  --sectionbg: #2f3046;
+  --sectionbg: #485763;
   --lighttext: #f9f9f9;
   --darkbg: #0b0425;
   --lightbg: #f4f8fe;
-  --btncolor: #188f91;
-  --list-item-container-color: #d8dfee;
-  --addbtnncolor: #5d62f7;
-  --ui-buttons-signup: rgb(58, 70, 160);
-  --ui-buttons-login: rgb(48, 142, 182);
+  --btncolor: #178e76;
+  --list-item-container-color: #eef3f2;
+  --addbtnncolor: #178e8c;
+  --ui-buttons-signup: #50808e;
+  --ui-buttons-login: rgb(38, 143, 150);
   --font-family: 'Open Sans', sans-serif;
-  --deletebtn: #d53970;
-  --renamebtn: #b9e2e9;
+  --deletebtn: #da627d;
+  --renamebtn: #c3cbc4;
 }
 
 html,
@@ -53,12 +53,13 @@ body {
   align-items: center;
   cursor: pointer;
   border-radius: 5px;
-  box-shadow: 0px 4px 3px rgba(25, 14, 94, 0.1);
-  color: #4d4d4be6;
+  box-shadow: 0px 2px 4px rgb(25 14 94 / 10%);
+  border: 1px solid rgba(106, 181, 127, 0.2);
+  color: rgb(109 132 127);
 }
 
 .list-item-container:hover {
-  background-color: #5871d6;
+  background-color: #178c8e;
   color: #f5f5ebe6;
 }
 
@@ -130,6 +131,10 @@ body {
   padding: 10px;
 }
 
+.list-id {
+  color: #c9d3cd;
+}
+
 .list-name:focus {
   background-color: #188f91;
 }
@@ -145,7 +150,8 @@ body {
 
 .todo-item-container {
   width: 50ch;
-  border: 2px solid #c5c6d8;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background-color: rgba(230, 225, 225, 0.1);
   height: 45px;
   margin-top: 10px;
   margin-bottom: 10px;
@@ -166,6 +172,11 @@ body {
   padding-right: 5%;
 }
 
+.rename-list,
+.delete-list-btn {
+  box-shadow: 0 -1px 20px rgba(14, 101, 85, 0.4);
+}
+
 .delete-list-btn {
   width: 150px;
   height: 50px;
@@ -181,7 +192,7 @@ body {
   height: 50px;
   cursor: pointer;
   background-color: var(--renamebtn);
-  border: none;
+  border: 1px solid rgba(163, 171, 164, 0.4);
   border-radius: 6px;
   margin-right: 10px;
 }
@@ -263,7 +274,7 @@ body {
   cursor: pointer;
   position: fixed;
   top: 128px;
-  left: 80px;
+  left: 60px;
   font-size: 0.86em;
   font-weight: 600;
   font-family: var(--font-family);
@@ -271,8 +282,8 @@ body {
 }
 
 .addBtn:hover {
-  background-color: #faf9f9;
-  color: #36468f;
+  background-color: #1b9b82;
+  color: #ffffff;
 }
 
 .addBtn i {
@@ -311,7 +322,7 @@ input[type='password'],
 input[type='email'] {
   border-radius: 50px;
   height: 50px;
-  border: 2px solid rgba(66, 74, 158, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.4);
   background-color: #f2ecec;
   width: 75%;
   margin: 10px 0px 5px 0px;
@@ -327,7 +338,7 @@ input[type='text']:focus,
 input[type='password']:focus,
 input[type='email']:focus {
   outline: none;
-  border: 3px solid #b4c8f9;
+  border: 2px solid rgba(85, 179, 135, 0.7);
 }
 
 input[type='text']:hover,
@@ -337,7 +348,7 @@ input[type='email']:hover {
 }
 
 input[type='submit'] {
-  border-radius: 20px;
+  border-radius: 50px;
   background-color: var(--btncolor);
   color: var(--lighttext);
   height: 50px;
@@ -400,7 +411,7 @@ hr.horizontal-divider {
 .icon-lock {
   width: 150px;
   height: 150px;
-  fill: rgb(202, 187, 237);
+  fill: #cfd0cf;
 }
 
 /* Button Bounce Animation START */
@@ -526,6 +537,8 @@ hr.horizontal-divider {
 .add-todo-form-group i {
   position: absolute;
   left: 74%;
+  top: 42%;
+
   color: rgb(193, 191, 191);
 }
 
@@ -540,17 +553,18 @@ hr.horizontal-divider {
   width: 25px;
   height: 25px;
   background-color: #ddd;
-  border-radius: 6px;
+  border-radius: 50px;
   position: relative;
   transition: background-color 0.4s;
   margin-right: 10px;
+  cursor: pointer;
 }
 
-#check:checked ~ .custom-checkbox {
+input[type='checkbox']:checked ~ .custom-checkbox {
   background-color: #08bb68;
 }
 
-#check:checked ~ .custom-checkbox::after {
+input[type='checkbox']:checked ~ .custom-checkbox::after {
   opacity: 1;
 }
 
