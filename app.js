@@ -4,6 +4,7 @@ const listItems = document.querySelector('.list-items');
 const lists = JSON.parse(localStorage.getItem('lists')) || [];
 const registeredUsers = JSON.parse(localStorage.getItem('users')) || [];
 const section = document.querySelector('.section');
+const logoutBtn = document.querySelector('.logout-btn-container');
 let currentUser;
 let getUserObj;
 const userLists = [];
@@ -408,4 +409,9 @@ window.addEventListener('DOMContentLoaded', (e) => {
   listItemContainers.forEach((item) => {
     item.classList.add('animate__animated', 'animate__slideInLeft');
   });
+});
+
+logoutBtn.addEventListener('click', (e) => {
+  location.hash = '#login';
+  console.log('user logged out!');
 });

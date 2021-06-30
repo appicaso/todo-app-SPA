@@ -76,7 +76,7 @@ body {
   grid-template-rows: 100px auto;
   gap: 0px 0px;
   grid-template-areas:
-    'head head head head head head head head head head head head'
+    'head head head head head head head head head head head logout'
     'menu menu section section section section section section section section section section';
 }
 
@@ -87,6 +87,26 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.logout-btn-container {
+  grid-area: logout;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  justify-self: center;
+  align-self: center;
+  width: 75px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.logout-btn {
+  padding: 10px;
+  border: 2px solid rgba(4, 36, 22, 0.2);
+  border-radius: 6px;
+  color: rgba(4, 36, 22, 0.8);
 }
 
 .title {
@@ -372,6 +392,11 @@ input[type='checkbox'] {
 
 input[type='checkbox']:checked {
   background-color: green;
+}
+
+input::placeholder {
+  font-weight: 100;
+  color: #dadada;
 }
 
 .error {
