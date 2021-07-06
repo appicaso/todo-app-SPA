@@ -10,7 +10,7 @@
 :root {
   --headingbg: #50808e;
   --menubg: #f9fafc;
-  --bodybg: linear-gradient(to right, #ffffff, #fafaf9);
+  --bodybg: linear-gradient(to top, #ffffff, #fafaf9);
   --sectionbg: #485763;
   --lighttext: #f9f9f9;
   --darkbg: #0b0425;
@@ -148,6 +148,8 @@ body {
   font-family: var(--font-family);
   font-size: 1.6rem;
   font-weight: 600;
+  width: 300px;
+  max-width: 300px;
   padding: 10px;
 }
 
@@ -396,11 +398,17 @@ input[type='checkbox']:checked {
 
 input::placeholder {
   font-weight: 100;
-  color: #dadada;
+  color: #bfbfbf;
 }
 
 .error {
   display: none;
+}
+
+.error.active {
+  color: rgb(254, 144, 144);
+  display: block;
+  margin: 5px 0px 5px 0px;
 }
 
 .show {

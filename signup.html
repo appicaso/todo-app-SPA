@@ -4,16 +4,20 @@
   <form class="form" id="form" action="javascript:;" novalidate>
     <label for="fname">First name:</label>
     <input type="text" id="fname" name="firstname" required />
+    <small class="error firstname-error-message">Error message</small>
     <label for="lname">Last Name:</label>
     <input type="text" id="lname" name="lastname" required />
+    <small class="error lastname-error-message">Error message</small>
     <label for="email">E-mail Address:</label>
     <input type="email" id="email" name="email" required />
+    <small class="error email-error-message">Error message</small>
     <label for="pass">Password:</label>
     <input type="password" id="pass" name="password" required />
+    <small class="error password-error-message">Error message</small>
     <div class="checkbox-wrapper">
       <input type="checkbox" id="check" name="check" hidden />
       <label class="custom-checkbox" for="check"></label>
-      <p class="term-agreement">By signing up to this app, you agree to our Terms & Conditions & Privacy Policy</p>
+      <p class="term-agreement">I agree to the Terms & Conditions & Privacy Policy</p>
     </div>
     <input type="submit" value="Submit" />
   </form>

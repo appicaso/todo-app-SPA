@@ -120,32 +120,37 @@ const getSelectedListInfo = () => {
 };
 
 const formValidation = () => {
-  const userForm = Array.from(form[0]);
-  const errorMessage = [];
+  //const userForm = Array.from(form[0]);
+  const userForm = document.querySelector('form');
+  let validationResult = true;
 
-  userForm.forEach((formfield) => {
-    if (formfield.getAttribute('type') == 'text' || formfield.getAttribute('type') == 'password' || formfield.getAttribute('type') == 'email') {
-      if (formfield.innerText == '') {
-        errorMessage.push(`the ${formfield.name} field is empty \n`);
+  for (let formField = 0; formField < userForm.length; formField++) {
+    const input = userForm[formField];
+
+    if (input.getAttribute('type') == 'text' || input.getAttribute('type') == 'password' || input.getAttribute('type') == 'email') {
+      userForm.querySelector(`.${input.name}-error-message`).classList.remove('active');
+
+      if (input.value === '' || input.value === null) {
+        displayFormError(userForm[formField], 'This field cannot be empty!');
+        validationResult = false;
       }
     }
-  });
+  }
 
   if (!email.validity.valid) {
-    errorMessage.push("impossible that's an e-mail dude! \n");
-    displayFormError(errorMessage);
-    return false;
-  } else {
-    return true;
+    displayFormError(email, 'Thats not an e-mail address dude!!');
+    validationResult = false;
   }
+
+  return validationResult;
 };
 
-const displayFormError = (errorMessage) => {
-  const errorMessageContainer = document.querySelector('.error');
-  errorMessage.forEach((error) => {
-    errorMessageContainer.innerText += error;
-    errorMessageContainer.classList.add('show');
-  });
+const displayFormError = (fieldContainingError, errorMessage) => {
+  const inputParentElement = fieldContainingError.parentElement;
+  const errorMessageField = inputParentElement.querySelector(`.${fieldContainingError.name}-error-message`);
+
+  errorMessageField.classList.add('active');
+  errorMessageField.innerText = errorMessage;
 };
 
 const registerUser = () => {
@@ -172,13 +177,17 @@ function createNewUser(inputFields) {
 const loginUser = (username, password) => {
   getUserObj = registeredUsers.find((user) => username.value === user.email);
 
-  if (getUserObj.email === username.value && getUserObj.password === password.value) {
-    currentUser = getUserObj.email;
-    console.log('user is Logged in!');
-    location.hash = '#dashboard';
-    loggedInState(getUserObj);
+  if (getUserObj) {
+    if (getUserObj.email === username.value && getUserObj.password === password.value) {
+      currentUser = getUserObj.email;
+      console.log('user is Logged in!');
+      location.hash = '#dashboard';
+      loggedInState(getUserObj);
+    } else {
+      displayFormError(username, 'Username Not Found');
+    }
   } else {
-    displayFormError();
+    //displayFormError();
   }
 };
 
@@ -269,14 +278,20 @@ function selectList(selectedListId, selectedListName) {
   localStorage.setItem('selected.listName', selectedListName);
 }
 
-const handleTodoItemStatus = (selectedListId, checkedTodoItemId) => {
+const handleTodoItemStatus = (selectedListId, checkedTodoItemId, event) => {
   const selectedList = lists.find((listItem) => listItem.id === selectedListId);
   const checkedTodoItem = selectedList.todos.find((todoItem) => todoItem.id === checkedTodoItemId);
+  const todoItemContainer = document.getElementById(checkedTodoItemId);
 
   if (!checkedTodoItem.completed) {
     checkedTodoItem.completed = true;
+    event.target.nextSibling.style.textDecoration = 'line-through';
+    event.target.nextSibling.style.textDecorationStyle = 'double';
+    todoItemContainer.style.opacity = 0.6;
   } else {
     checkedTodoItem.completed = false;
+    event.target.nextSibling.style.textDecoration = 'none';
+    todoItemContainer.style.opacity = 1;
   }
 
   localStorage.setItem('lists', JSON.stringify(lists));
@@ -284,16 +299,17 @@ const handleTodoItemStatus = (selectedListId, checkedTodoItemId) => {
 
 const appendTodosToView = (listID) => {
   const todoItems = document.querySelector('.todo-items');
+  const findMatchingListId = lists.find((list) => list.id === listID.toString());
 
   // Reset all LI elements containing todos.
   if (document.body.contains(todoItems)) {
     clearElementsFromView(todoItems);
   }
 
-  const findMatchingListId = lists.find((list) => list.id === listID.toString());
-
   //Append all Todos to view
   findMatchingListId.todos.forEach((todo) => {
+    const todoItem = findMatchingListId.todos.find((todoItem) => todoItem.id === todo.id);
+    console.log(todoItem);
     const generatedDivcontainer = document.createElement('div');
     const generatedInputElement = document.createElement('input');
     const generatedCheckboxElement = document.createElement('label');
@@ -314,6 +330,12 @@ const appendTodosToView = (listID) => {
     generatedCheckboxElement.setAttribute('for', `checkbox-${todo.id}`);
     generatedDivcontainer.appendChild(generatedCheckboxElement);
 
+    if (todoItem.completed) {
+      generatedInputElement.checked = true;
+      generatedLiElement.style.textDecoration = 'line-through';
+      generatedDivcontainer.style.opacity = 0.6;
+    }
+
     generatedLiElement.id = todo.id;
     generatedLiElement.classList.add('todo-item');
     generatedLiElement.innerText = todo.todoItem;
@@ -330,7 +352,7 @@ const appendTodosToView = (listID) => {
       const checkedTodoId = e.target.parentNode.id;
       const checkbox = e.target.previousElementSibling;
 
-      handleTodoItemStatus(getSelectedListId(), checkedTodoId);
+      handleTodoItemStatus(getSelectedListId(), checkedTodoId, e);
     });
   });
 };
@@ -374,6 +396,17 @@ const renameList = (listNameElement) => {
   listNameElement.setAttribute('contentEditable', true);
   listNameElement.classList.add('focused');
   listNameElement.focus();
+
+  const moveCursorTextEnd = (listNameElement) => {
+    const range = document.createRange();
+    const sel = window.getSelection();
+    range.selectNodeContents(listNameElement);
+    range.collapse(false);
+    sel.removeAllRanges();
+    sel.addRange(range);
+  };
+
+  moveCursorTextEnd(listNameElement);
 };
 
 const saveRenamedListName = (listId) => {
