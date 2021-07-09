@@ -5,6 +5,8 @@ const lists = JSON.parse(localStorage.getItem('lists')) || [];
 const registeredUsers = JSON.parse(localStorage.getItem('users')) || [];
 const section = document.querySelector('.section');
 const logoutBtn = document.querySelector('.logout-btn-container');
+const settingsBtn = document.querySelector('.settings-btn-container');
+const inputFields = document.getElementsByTagName('input');
 let currentUser;
 let getUserObj;
 const userLists = [];
@@ -52,6 +54,16 @@ async function loadNewContent(clickedlink) {
       event.preventDefault();
       createNewList();
       location.hash = 'todo';
+    });
+  }
+
+  if (location.hash === '#settings') {
+    loadUserData(inputFields);
+
+    form[0].addEventListener('submit', (e) => {
+      e.preventDefault();
+      saveSettings();
+      location.hash = 'dashboard';
     });
   }
 
@@ -120,7 +132,6 @@ const getSelectedListInfo = () => {
 };
 
 const formValidation = () => {
-  //const userForm = Array.from(form[0]);
   const userForm = document.querySelector('form');
   let validationResult = true;
 
@@ -439,12 +450,35 @@ window.addEventListener('DOMContentLoaded', (e) => {
   animateSection(section);
 
   addBtn.classList.add('animate__animated', 'animate__bounceInDown');
+
   listItemContainers.forEach((item) => {
     item.classList.add('animate__animated', 'animate__slideInLeft');
   });
+});
+
+settingsBtn.addEventListener('click', (e) => {
+  location.hash = '#settings';
 });
 
 logoutBtn.addEventListener('click', (e) => {
   location.hash = '#login';
   console.log('user logged out!');
 });
+
+const loadUserData = (inputFields) => {
+  inputFields[0].value = getUserObj.firstName;
+  inputFields[1].value = getUserObj.lastName;
+  inputFields[2].value = getUserObj.email;
+  inputFields[3].value = getUserObj.password;
+};
+
+const saveSettings = () => {
+  const userID = getUserObj.id;
+  const userIndex = registeredUsers.indexOf(getUserObj);
+  const newUserInfo = createNewUser(inputFields);
+
+  registeredUsers.splice(userIndex, 1);
+  newUserInfo.id = userID;
+  registeredUsers.push(newUserInfo);
+  localStorage.setItem('users', JSON.stringify(registeredUsers));
+};

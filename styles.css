@@ -76,7 +76,7 @@ body {
   grid-template-rows: 100px auto;
   gap: 0px 0px;
   grid-template-areas:
-    'head head head head head head head head head head head logout'
+    'head head head head head head head head head head settings logout'
     'menu menu section section section section section section section section section section';
 }
 
@@ -559,7 +559,13 @@ hr.horizontal-divider {
 }
 
 /* BUTTON BOUNCE ANIMATION END */
-
+.settings-btn-container {
+  display: flex;
+  align-self: center;
+  justify-self: flex-end;
+  grid-area: settings;
+  color: rgb(170, 172, 170);
+}
 .add-todo-form-group {
   position: relative;
   width: 100%;
@@ -571,7 +577,6 @@ hr.horizontal-divider {
   position: absolute;
   left: 74%;
   top: 42%;
-
   color: rgb(193, 191, 191);
 }
 
@@ -613,4 +618,10 @@ input[type='checkbox']:checked ~ .custom-checkbox::after {
   transform: translate(-50%, -50%) rotateZ(40deg);
   opacity: 0;
   transition: all 0.2s;
+}
+
+.logo {
+  margin-bottom: 20px;
+  width: 5em;
+  height: 5em;
 }
