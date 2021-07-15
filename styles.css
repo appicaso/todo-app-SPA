@@ -8,21 +8,22 @@
 }
 
 :root {
-  --headingbg: #50808e;
+  --headingbg: rgb(16, 47, 53);
   --menubg: #f9fafc;
   --bodybg: linear-gradient(to top, #ffffff, #fafaf9);
-  --sectionbg: #485763;
+  --sectionbg: #23635f;
   --lighttext: #f9f9f9;
   --darkbg: #0b0425;
   --lightbg: #f4f8fe;
   --btncolor: #178e76;
-  --list-item-container-color: #eef3f2;
+  --btnhovercolor: #178e76;
+  --list-item-container-color: #eef1f3;
   --addbtnncolor: #178e8c;
   --ui-buttons-signup: #50808e;
   --ui-buttons-login: rgb(38, 143, 150);
   --font-family: 'Open Sans', sans-serif;
-  --deletebtn: #da627d;
-  --renamebtn: #c3cbc4;
+  --deletebtn: #b03651;
+  --renamebtn: #498e83;
 }
 
 html,
@@ -59,7 +60,7 @@ body {
 }
 
 .list-item-container:hover {
-  background-color: #178c8e;
+  background-color: #2c9884;
   color: #f5f5ebe6;
 }
 
@@ -76,7 +77,7 @@ body {
   grid-template-rows: 100px auto;
   gap: 0px 0px;
   grid-template-areas:
-    'head head head head head head head head head head settings logout'
+    'head head head head head head head head head head toprightnav toprightnav'
     'menu menu section section section section section section section section section section';
 }
 
@@ -104,9 +105,9 @@ body {
 
 .logout-btn {
   padding: 10px;
-  border: 2px solid rgba(4, 36, 22, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.2);
   border-radius: 6px;
-  color: rgba(4, 36, 22, 0.8);
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .title {
@@ -167,7 +168,7 @@ body {
   align-items: center;
   justify-content: space-between;
   width: 90%;
-  margin: 25px 0px 25px 0px;
+  margin: 20px 0px 20px 0px;
 }
 
 .todo-item-container {
@@ -176,7 +177,6 @@ body {
   background-color: rgba(230, 225, 225, 0.1);
   height: 45px;
   margin-top: 10px;
-  margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -197,26 +197,22 @@ body {
 .rename-list,
 .delete-list-btn {
   box-shadow: 0 -1px 20px rgba(14, 101, 85, 0.4);
+  width: 130px;
+  height: 50px;
+  cursor: pointer;
+  border-radius: 12px;
+  color: #ffffff;
 }
 
 .delete-list-btn {
-  width: 150px;
-  height: 50px;
   background-color: var(--deletebtn);
-  color: #ffffff;
-  cursor: pointer;
   border: none;
-  border-radius: 6px;
 }
 
 .rename-list {
-  width: 150px;
-  height: 50px;
-  cursor: pointer;
   background-color: var(--renamebtn);
   border: 1px solid rgba(163, 171, 164, 0.4);
-  border-radius: 6px;
-  margin-right: 10px;
+  margin-right: 15px;
 }
 
 .main-content {
@@ -235,32 +231,54 @@ body {
   position: relative;
 }
 
-.form {
+.new-list-form {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 25px;
   width: 100%;
 }
 
-.text {
+.login-form {
+  margin-top: 1em;
+  display: flex;
+  margin-top: 1em;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.todo-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.new-todo-input {
+  margin-top: 1em;
+}
+
+.section-header {
   font-size: 1.2em;
-  font-weight: 400;
+  font-weight: 500;
 }
 
 .section {
   min-width: 350px;
   width: 55%;
+  margin-top: 5%;
   background-color: var(--sectionbg);
-  box-shadow: 0 -1px 20px rgba(14, 14, 101, 0.4);
-  border-radius: 15px;
+  box-shadow: 0 -1px 20px rgba(14, 101, 88, 0.4);
+  border-radius: 35px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   padding: 50px 0px 50px 0px;
   color: #ffffff;
+  position: relative;
 }
 
 .signupbtn,
@@ -282,7 +300,27 @@ body {
 
 .signupbtn:hover,
 .loginbtn:hover {
-  background-color: #7661de;
+  background-color: #618fde;
+}
+
+.blob {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: -1;
+  bottom: 270px;
+}
+
+.top-right-nav {
+  grid-area: toprightnav;
+  background-color: rgb(16, 47, 53);
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  padding-left: 75px;
+  padding-right: 50px;
 }
 
 .addBtn {
@@ -335,19 +373,17 @@ body {
   width: 65%;
 }
 
-input[type='submit'] {
-  cursor: pointer;
-}
-
 input[type='text'],
 input[type='password'],
 input[type='email'] {
+  margin-top: 20px;
+  margin-bottom: 20px;
   border-radius: 50px;
   height: 50px;
-  border: 2px solid rgba(255, 255, 255, 0.4);
+  border: 2px solid rgb(255, 255, 255);
   background-color: #f2ecec;
-  width: 75%;
-  margin: 10px 0px 5px 0px;
+  color: rgb(54, 62, 62);
+  width: 70%;
   font-size: 1.1em;
   font-weight: 600;
   text-align: center;
@@ -360,7 +396,7 @@ input[type='text']:focus,
 input[type='password']:focus,
 input[type='email']:focus {
   outline: none;
-  border: 2px solid rgba(85, 179, 135, 0.7);
+  border: 2.7px solid rgb(88, 189, 117);
 }
 
 input[type='text']:hover,
@@ -370,15 +406,16 @@ input[type='email']:hover {
 }
 
 input[type='submit'] {
-  border-radius: 50px;
+  border-radius: 20px;
   background-color: var(--btncolor);
   color: var(--lighttext);
   height: 50px;
   border: none;
   width: 400px;
-  margin: 20px 0px 5px 0px;
+  margin-top: 40px;
   max-width: 200px;
   box-shadow: 0 4px 3px rgba(25, 14, 94, 0.2);
+  cursor: pointer;
 }
 
 input[type='checkbox'] {
@@ -564,7 +601,6 @@ hr.horizontal-divider {
   align-self: center;
   justify-self: flex-end;
   grid-area: settings;
-  color: rgb(170, 172, 170);
 }
 .add-todo-form-group {
   position: relative;
@@ -576,7 +612,7 @@ hr.horizontal-divider {
 .add-todo-form-group i {
   position: absolute;
   left: 74%;
-  top: 42%;
+  margin: auto;
   color: rgb(193, 191, 191);
 }
 
@@ -599,7 +635,7 @@ hr.horizontal-divider {
 }
 
 input[type='checkbox']:checked ~ .custom-checkbox {
-  background-color: #08bb68;
+  background-color: #67bb94;
 }
 
 input[type='checkbox']:checked ~ .custom-checkbox::after {
@@ -613,8 +649,8 @@ input[type='checkbox']:checked ~ .custom-checkbox::after {
   height: 16px;
   border-right: 5px solid #ffffff;
   border-bottom: 5px solid #ffffff;
-  top: 40%;
-  left: 50%;
+  top: 42%;
+  left: 45%;
   transform: translate(-50%, -50%) rotateZ(40deg);
   opacity: 0;
   transition: all 0.2s;
@@ -624,4 +660,30 @@ input[type='checkbox']:checked ~ .custom-checkbox::after {
   margin-bottom: 20px;
   width: 5em;
   height: 5em;
+}
+
+.btn-settings {
+  color: rgb(170, 172, 170);
+  cursor: pointer;
+}
+
+.btn-settings:hover {
+  color: var(--btnhovercolor);
+}
+
+.filter {
+  background-color: rgb(219, 220, 220);
+  font-family: var(--font-family);
+  margin: 20px 5px 20px 5px;
+  padding: 5px 10px 5px 10px;
+  border-radius: 25px;
+  border: none;
+  color: rgb(19, 80, 54);
+  cursor: pointer;
+}
+
+.filter.selected {
+  color: white;
+  background-color: rgb(52, 152, 97);
+  border: 1.5px solid rgb(82, 189, 130);
 }

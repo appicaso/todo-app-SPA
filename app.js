@@ -71,7 +71,9 @@ async function loadNewContent(clickedlink) {
     const listNameElement = document.querySelector('.list-name');
     const deleteBtn = document.querySelector('.delete-list-btn');
     const renameListBtn = document.querySelector('.rename-list');
+    const listInfoContainer = document.querySelector('.list-info-container');
     const saveNewListNameBtn = document.querySelector('.save-list-name-btn');
+    const filters = document.querySelectorAll('.filter');
 
     form[0].addEventListener('submit', (event) => {
       event.preventDefault();
@@ -84,8 +86,23 @@ async function loadNewContent(clickedlink) {
 
     renameListBtn.addEventListener('click', (e) => {
       renameList(listNameElement);
-      renameListBtn.style.opacity = '10%';
+      renameListBtn.style.opacity = '50%';
+      renameListBtn.disabled = true;
+      renameListBtn.style.cursor = 'not-allowed';
       saveNewListNameBtn.style.visibility = 'visible';
+    });
+
+    listInfoContainer.addEventListener('focusout', (e) => {
+      listNameElement.setAttribute('contentEditable', false);
+      listNameElement.classList.remove('focused');
+      renameListBtn.style.opacity = 1;
+      renameListBtn.disabled = false;
+      renameListBtn.style.cursor = 'pointer';
+      saveNewListNameBtn.style.visibility = 'hidden';
+    });
+
+    listInfoContainer.addEventListener('keydown', function (e) {
+      if (e.keyCode === 13) e.preventDefault();
     });
 
     saveNewListNameBtn.addEventListener('click', (e) => {
@@ -93,13 +110,19 @@ async function loadNewContent(clickedlink) {
       renameListBtn.style.opacity = '100%';
       saveNewListNameBtn.style.visibility = 'hidden';
     });
+
+    filters.forEach((filter) => {
+      filter.addEventListener('click', (e) => {
+        appendTodosToView(getSelectedListId(), e.target.innerText);
+      });
+    });
   }
 
   animateSection(section);
 }
 
 function animateSection(section) {
-  if (section.classList.contains('animate__fadeInLeftBig')) {
+  if (section.classList.contains('animate__bounceInUp')) {
     section.classList.remove('animate__animated', 'animate__bounceInUp');
     section.classList.add('animate__animated', 'animate__bounceInUp');
   } else {
@@ -117,7 +140,7 @@ listContainer.addEventListener('click', (e) => {
 
     selectList(selectedListId, selectedListName);
     setTimeout(() => {
-      appendTodosToView(selectedListId);
+      appendTodosToView(selectedListId, 'All');
       getSelectedListInfo();
     }, 100);
   }
@@ -279,7 +302,7 @@ const createNewTodo = () => {
 
   findMatchingListId.todos.push({ id: generateUniqueID(), todoItem: newTodo, completed: false });
   localStorage.setItem('lists', JSON.stringify(lists));
-  appendTodosToView(currentSelectedList);
+  appendTodosToView(currentSelectedList, 'All');
 };
 
 function selectList(selectedListId, selectedListName) {
@@ -308,9 +331,15 @@ const handleTodoItemStatus = (selectedListId, checkedTodoItemId, event) => {
   localStorage.setItem('lists', JSON.stringify(lists));
 };
 
-const appendTodosToView = (listID) => {
+const appendTodosToView = (listID, filter) => {
   const todoItems = document.querySelector('.todo-items');
+  const todoCountElement = document.querySelector('.todo-count');
+
   const findMatchingListId = lists.find((list) => list.id === listID.toString());
+  const filteredTodos = setTodoFilter(findMatchingListId.todos, filter);
+  console.log('Appended Todos');
+  console.log(filteredTodos);
+  const todoCount = findMatchingListId.todos.length > 0 ? findMatchingListId.todos.length : 0;
 
   // Reset all LI elements containing todos.
   if (document.body.contains(todoItems)) {
@@ -318,9 +347,8 @@ const appendTodosToView = (listID) => {
   }
 
   //Append all Todos to view
-  findMatchingListId.todos.forEach((todo) => {
+  filteredTodos.forEach((todo) => {
     const todoItem = findMatchingListId.todos.find((todoItem) => todoItem.id === todo.id);
-    console.log(todoItem);
     const generatedDivcontainer = document.createElement('div');
     const generatedInputElement = document.createElement('input');
     const generatedCheckboxElement = document.createElement('label');
@@ -366,6 +394,7 @@ const appendTodosToView = (listID) => {
       handleTodoItemStatus(getSelectedListId(), checkedTodoId, e);
     });
   });
+  todoCountElement.innerText = todoCount;
 };
 
 const deleteTodo = (deletedTodoId) => {
@@ -380,7 +409,7 @@ const deleteTodo = (deletedTodoId) => {
       animateDeletedTodo(deletedTodoId);
 
       setTimeout(() => {
-        appendTodosToView(getSelectedListId());
+        appendTodosToView(getSelectedListId(), 'all');
       }, 700);
     }
   });
@@ -400,7 +429,7 @@ const deleteList = (selectedList) => {
 
   selectList(listItems.firstChild.id, listItems.firstChild.firstChild.innerText);
   getSelectedListInfo();
-  appendTodosToView(listItems.firstChild.id);
+  appendTodosToView(listItems.firstChild.id, 'All');
 };
 
 const renameList = (listNameElement) => {
@@ -441,6 +470,7 @@ function animateDeletedTodo(deletedTodoId) {
 window.addEventListener('hashchange', () => {
   const clickedlink = location.hash.substr(1);
   loadNewContent(clickedlink);
+  animateSection(section);
 });
 
 window.addEventListener('DOMContentLoaded', (e) => {
@@ -481,4 +511,26 @@ const saveSettings = () => {
   newUserInfo.id = userID;
   registeredUsers.push(newUserInfo);
   localStorage.setItem('users', JSON.stringify(registeredUsers));
+};
+
+const setTodoFilter = (todos, filter) => {
+  console.log(filter);
+  let filteredTodos;
+
+  switch (filter) {
+    case 'All':
+      filteredTodos = todos;
+      break;
+    case 'Completed':
+      filteredTodos = todos.filter((todo) => {
+        return todo.completed == true;
+      });
+      break;
+    case 'Incomplete':
+      filteredTodos = todos.filter((todo) => {
+        return todo.completed == false;
+      });
+      break;
+  }
+  return filteredTodos;
 };
