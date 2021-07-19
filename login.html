@@ -1,10 +1,17 @@
 <div class="section authentification">
   <div class="section-header"><p>Login to your account</p></div>
   <form class="login-form" action="javascript:;">
-    <label for="username">E-mail:</label>
+    <label class="form-label" for="username">E-mail:</label>
     <input type="text" id="username" name="username" required />
-    <label for="pass">Password:</label>
+    <small class="error username-error-message">Error message</small>
+    <label class="form-label" for="password">Password:</label>
     <input type="password" id="password" name="password" required />
+    <small class="error password-error-message">Error message</small>
     <input type="submit" value="LOGIN" />
   </form>
+
+  <div class="registration-prompt">
+    <p>Don't have an account?</p>
+    <button class="signupBtn">Sign-up Here</button>
+  </div>
 </div>

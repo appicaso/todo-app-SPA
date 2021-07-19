@@ -3,10 +3,13 @@ const listContainer = document.querySelector('.lists');
 const listItems = document.querySelector('.list-items');
 const lists = JSON.parse(localStorage.getItem('lists')) || [];
 const registeredUsers = JSON.parse(localStorage.getItem('users')) || [];
+const menu = document.querySelector('.menu-container');
 const section = document.querySelector('.section');
 const logoutBtn = document.querySelector('.logout-btn-container');
 const settingsBtn = document.querySelector('.settings-btn-container');
+const signupBtn = document.querySelector('.signupbtn');
 const inputFields = document.getElementsByTagName('input');
+
 let currentUser;
 let getUserObj;
 const userLists = [];
@@ -39,6 +42,14 @@ async function loadNewContent(clickedlink) {
   }
 
   if (location.hash === '#login') {
+    //const addBtnContainer = document.querySelector('.add-btn-container');
+
+    const menu = document.querySelector('.menu-container');
+
+    menu.style.visibility = 'hidden';
+    logoutBtn.style.visibility = 'hidden';
+    settingsBtn.style.visibility = 'hidden';
+
     form[0].addEventListener('submit', (event) => {
       event.preventDefault();
       loginUser(username, password);
@@ -46,7 +57,7 @@ async function loadNewContent(clickedlink) {
   }
 
   if (location.hash === '#dashboard') {
-    loggedInState();
+    loggedInState(getUserObj);
   }
 
   if (location.hash === '#lists') {
@@ -90,15 +101,7 @@ async function loadNewContent(clickedlink) {
       renameListBtn.disabled = true;
       renameListBtn.style.cursor = 'not-allowed';
       saveNewListNameBtn.style.visibility = 'visible';
-    });
-
-    listInfoContainer.addEventListener('focusout', (e) => {
-      listNameElement.setAttribute('contentEditable', false);
-      listNameElement.classList.remove('focused');
-      renameListBtn.style.opacity = 1;
-      renameListBtn.disabled = false;
-      renameListBtn.style.cursor = 'pointer';
-      saveNewListNameBtn.style.visibility = 'hidden';
+      document.querySelector('.body').style.filter = blur(`3px`);
     });
 
     listInfoContainer.addEventListener('keydown', function (e) {
@@ -106,9 +109,14 @@ async function loadNewContent(clickedlink) {
     });
 
     saveNewListNameBtn.addEventListener('click', (e) => {
+      console.log('clicked');
       saveRenamedListName(getSelectedListId());
-      renameListBtn.style.opacity = '100%';
       saveNewListNameBtn.style.visibility = 'hidden';
+      listNameElement.setAttribute('contentEditable', false);
+      listNameElement.classList.remove('focused');
+      renameListBtn.style.opacity = 1;
+      renameListBtn.disabled = false;
+      renameListBtn.style.cursor = 'pointer';
     });
 
     filters.forEach((filter) => {
@@ -156,14 +164,18 @@ const getSelectedListInfo = () => {
 
 const formValidation = () => {
   const userForm = document.querySelector('form');
+
   let validationResult = true;
 
   for (let formField = 0; formField < userForm.length; formField++) {
     const input = userForm[formField];
+    const errorMessage = userForm.querySelector(`.${input.name}-error-message`);
+
+    // if (errorMessage != null || errorMessage == undefinded) {
+    //   errorMessage.classList.remove('error-identified');
+    // }
 
     if (input.getAttribute('type') == 'text' || input.getAttribute('type') == 'password' || input.getAttribute('type') == 'email') {
-      userForm.querySelector(`.${input.name}-error-message`).classList.remove('active');
-
       if (input.value === '' || input.value === null) {
         displayFormError(userForm[formField], 'This field cannot be empty!');
         validationResult = false;
@@ -183,7 +195,7 @@ const displayFormError = (fieldContainingError, errorMessage) => {
   const inputParentElement = fieldContainingError.parentElement;
   const errorMessageField = inputParentElement.querySelector(`.${fieldContainingError.name}-error-message`);
 
-  errorMessageField.classList.add('active');
+  errorMessageField.classList.add('error-identified');
   errorMessageField.innerText = errorMessage;
 };
 
@@ -209,23 +221,29 @@ function createNewUser(inputFields) {
 }
 
 const loginUser = (username, password) => {
-  getUserObj = registeredUsers.find((user) => username.value === user.email);
+  if (formValidation) {
+    getUserObj = registeredUsers.find((user) => username.value === user.email);
 
-  if (getUserObj) {
-    if (getUserObj.email === username.value && getUserObj.password === password.value) {
-      currentUser = getUserObj.email;
-      console.log('user is Logged in!');
-      location.hash = '#dashboard';
-      loggedInState(getUserObj);
-    } else {
-      displayFormError(username, 'Username Not Found');
+    if (getUserObj) {
+      if (getUserObj.email === username.value && getUserObj.password === password.value) {
+        currentUser = getUserObj.email;
+        console.log('user is Logged in!');
+        location.hash = '#dashboard';
+        loggedInState(getUserObj);
+      } else {
+        displayFormError(username, 'Username Not Found');
+      }
     }
   } else {
-    //displayFormError();
+    displayFormError();
   }
 };
 
 const loggedInState = (userObj) => {
+  menu.style.visibility = 'visible';
+  logoutBtn.style.visibility = 'visible';
+  settingsBtn.style.visibility = 'visible';
+
   appendListsToView();
 
   setTimeout(() => {
@@ -306,8 +324,17 @@ const createNewTodo = () => {
 };
 
 function selectList(selectedListId, selectedListName) {
+  const previousSelectedListElements = document.querySelectorAll('.selected');
   const selectedListElement = document.getElementById(selectedListId);
+
+  if (previousSelectedListElements != null) {
+    for (i = 0; i < previousSelectedListElements.length; i++) {
+      previousSelectedListElements[i].classList.remove('selected');
+    }
+  }
+
   selectedListElement.classList.add('selected');
+  selectedListElement.firstChild.classList.add('selected');
   localStorage.setItem('selected.listID', selectedListId);
   localStorage.setItem('selected.listName', selectedListName);
 }
@@ -320,7 +347,6 @@ const handleTodoItemStatus = (selectedListId, checkedTodoItemId, event) => {
   if (!checkedTodoItem.completed) {
     checkedTodoItem.completed = true;
     event.target.nextSibling.style.textDecoration = 'line-through';
-    event.target.nextSibling.style.textDecorationStyle = 'double';
     todoItemContainer.style.opacity = 0.6;
   } else {
     checkedTodoItem.completed = false;
@@ -337,8 +363,6 @@ const appendTodosToView = (listID, filter) => {
 
   const findMatchingListId = lists.find((list) => list.id === listID.toString());
   const filteredTodos = setTodoFilter(findMatchingListId.todos, filter);
-  console.log('Appended Todos');
-  console.log(filteredTodos);
   const todoCount = findMatchingListId.todos.length > 0 ? findMatchingListId.todos.length : 0;
 
   // Reset all LI elements containing todos.
@@ -409,7 +433,7 @@ const deleteTodo = (deletedTodoId) => {
       animateDeletedTodo(deletedTodoId);
 
       setTimeout(() => {
-        appendTodosToView(getSelectedListId(), 'all');
+        appendTodosToView(getSelectedListId(), 'All');
       }, 700);
     }
   });
@@ -451,6 +475,7 @@ const renameList = (listNameElement) => {
 
 const saveRenamedListName = (listId) => {
   const newListName = document.querySelector('.list-name').innerText;
+  console.log(newListName);
   const findList = lists.find((list) => list.id === listId);
   const listIndex = lists.indexOf(findList);
 
@@ -466,6 +491,11 @@ function animateDeletedTodo(deletedTodoId) {
   const deletedTodoDiv = document.getElementById(deletedTodoId);
   deletedTodoDiv.classList.add('animate__animated', 'animate__bounceOutRight');
 }
+
+form[0].addEventListener('submit', (event) => {
+  event.preventDefault();
+  loginUser(username, password);
+});
 
 window.addEventListener('hashchange', () => {
   const clickedlink = location.hash.substr(1);
@@ -495,6 +525,11 @@ logoutBtn.addEventListener('click', (e) => {
   console.log('user logged out!');
 });
 
+signupBtn.addEventListener('click', (event) => {
+  console.log('clicked');
+  location.hash = '#signup';
+});
+
 const loadUserData = (inputFields) => {
   inputFields[0].value = getUserObj.firstName;
   inputFields[1].value = getUserObj.lastName;
@@ -514,22 +549,30 @@ const saveSettings = () => {
 };
 
 const setTodoFilter = (todos, filter) => {
-  console.log(filter);
   let filteredTodos;
+  const filters = document.querySelectorAll('.filter');
+  filters.forEach((filter) => {
+    filter.classList.remove('filter-selected');
+  });
 
   switch (filter) {
     case 'All':
       filteredTodos = todos;
+      filters[0].classList.add('filter-selected');
       break;
-    case 'Completed':
-      filteredTodos = todos.filter((todo) => {
-        return todo.completed == true;
-      });
-      break;
+
     case 'Incomplete':
       filteredTodos = todos.filter((todo) => {
         return todo.completed == false;
       });
+      filters[1].classList.add('filter-selected');
+      break;
+
+    case 'Completed':
+      filteredTodos = todos.filter((todo) => {
+        return todo.completed == true;
+      });
+      filters[2].classList.add('filter-selected');
       break;
   }
   return filteredTodos;
