@@ -13,22 +13,23 @@
 
   <div class="form-container">
     <form class="todo-form" action="javascript:;">
-      <label for="todo">Add some todo's to your list</label>
+      <label class="form-label" for="todo">Add some todo's to your list</label>
       <div class="add-todo-form-group">
-        <input class="new-todo-input" type="text" id="todo" name="todo" placeholder="Enter a todo name" required />
+        <input class="new-todo-input" type="text" id="todo" name="todo" placeholder="Enter a todo item" required />
         <i class="todoaddicon fas fa-plus fa-lg"></i>
       </div>
     </form>
   </div>
 
-  <hr class="horizontal-divider" />
-  <p class="todo-header">Todos (<span class="todo-count">0</span>)</p>
-  <div class="todo-filters">
-    <button class="filter filter-selected">All</button>
-    <button class="filter">Incomplete</button>
-    <button class="filter">Completed</button>
-    <i class="fas fa-filter"></i>
-  </div>
+  <div class="todos-container">
+    <p class="todo-header">Todos (<span class="todo-count">0</span>)</p>
+    <div class="todo-filters">
+      <button class="filter filter-selected">All</button>
+      <button class="filter">Incomplete</button>
+      <button class="filter">Completed</button>
+      <i class="filter-icon fas fa-filter"></i>
+    </div>
 
-  <ul class="todo-items" id="todo-items"></ul>
+    <ul class="todo-items" id="todo-items"></ul>
+  </div>
 </div>

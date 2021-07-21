@@ -9,7 +9,6 @@ const logoutBtn = document.querySelector('.logout-btn-container');
 const settingsBtn = document.querySelector('.settings-btn-container');
 const signupBtn = document.querySelector('.signupbtn');
 const inputFields = document.getElementsByTagName('input');
-
 let currentUser;
 let getUserObj;
 const userLists = [];
@@ -42,8 +41,6 @@ async function loadNewContent(clickedlink) {
   }
 
   if (location.hash === '#login') {
-    //const addBtnContainer = document.querySelector('.add-btn-container');
-
     const menu = document.querySelector('.menu-container');
 
     menu.style.visibility = 'hidden';
@@ -101,7 +98,6 @@ async function loadNewContent(clickedlink) {
       renameListBtn.disabled = true;
       renameListBtn.style.cursor = 'not-allowed';
       saveNewListNameBtn.style.visibility = 'visible';
-      document.querySelector('.body').style.filter = blur(`3px`);
     });
 
     listInfoContainer.addEventListener('keydown', function (e) {
@@ -167,13 +163,18 @@ const formValidation = () => {
 
   let validationResult = true;
 
-  for (let formField = 0; formField < userForm.length; formField++) {
+  for (let formField = 0; formField < userForm.length - 2; formField++) {
     const input = userForm[formField];
     const errorMessage = userForm.querySelector(`.${input.name}-error-message`);
 
-    // if (errorMessage != null || errorMessage == undefinded) {
-    //   errorMessage.classList.remove('error-identified');
-    // }
+    console.log('Not null = ' + errorMessage !== null);
+    console.log('Not undefined = ' + errorMessage !== undefined);
+    console.log(errorMessage);
+
+    if (errorMessage !== null || errorMessage !== undefined) {
+      console.log(errorMessage);
+      errorMessage.classList.remove('error-identified');
+    }
 
     if (input.getAttribute('type') == 'text' || input.getAttribute('type') == 'password' || input.getAttribute('type') == 'email') {
       if (input.value === '' || input.value === null) {
@@ -277,7 +278,7 @@ function createListObj(listName) {
   return {
     id: generateUniqueID(),
     submitBy: getUserObj.email,
-    name: listName,
+    name: '#' + listName,
     todos: [],
   };
 }
@@ -371,53 +372,66 @@ const appendTodosToView = (listID, filter) => {
   }
 
   //Append all Todos to view
-  filteredTodos.forEach((todo) => {
-    const todoItem = findMatchingListId.todos.find((todoItem) => todoItem.id === todo.id);
-    const generatedDivcontainer = document.createElement('div');
-    const generatedInputElement = document.createElement('input');
-    const generatedCheckboxElement = document.createElement('label');
-    const generatedLiElement = document.createElement('li');
-    const generatedTrashIcon = document.createElement('i');
 
-    generatedDivcontainer.classList.add('todo-item-container');
-    generatedDivcontainer.id = todo.id;
-    todoItems.appendChild(generatedDivcontainer);
+  if (todoCount < 1) {
+    const noTodosFoundContainer = document.createElement('div');
+    const noTodosFoundAlert = document.createElement('p');
 
-    generatedInputElement.setAttribute('type', 'checkbox');
-    generatedInputElement.setAttribute('name', 'check');
-    generatedInputElement.id = `checkbox-${todo.id}`;
-    generatedInputElement.setAttribute('hidden', 'hidden');
-    generatedDivcontainer.appendChild(generatedInputElement);
+    todoItems.appendChild(noTodosFoundContainer);
+    noTodosFoundContainer.appendChild(noTodosFoundAlert);
+    noTodosFoundContainer.classList.add('no-todos-found-container');
+    noTodosFoundAlert.classList.add('no-todos-found-alert');
+    noTodosFoundAlert.innerText = 'No Todos Found Buddy!';
+  } else {
+    filteredTodos.forEach((todo) => {
+      const todoItem = findMatchingListId.todos.find((todoItem) => todoItem.id === todo.id);
+      const generatedDivcontainer = document.createElement('div');
+      const generatedInputElement = document.createElement('input');
+      const generatedCheckboxElement = document.createElement('label');
+      const generatedLiElement = document.createElement('li');
+      const generatedTrashIcon = document.createElement('i');
 
-    generatedCheckboxElement.classList.add('custom-checkbox');
-    generatedCheckboxElement.setAttribute('for', `checkbox-${todo.id}`);
-    generatedDivcontainer.appendChild(generatedCheckboxElement);
+      generatedDivcontainer.classList.add('todo-item-container');
+      generatedDivcontainer.id = todo.id;
+      todoItems.appendChild(generatedDivcontainer);
 
-    if (todoItem.completed) {
-      generatedInputElement.checked = true;
-      generatedLiElement.style.textDecoration = 'line-through';
-      generatedDivcontainer.style.opacity = 0.6;
-    }
+      generatedInputElement.setAttribute('type', 'checkbox');
+      generatedInputElement.setAttribute('name', 'check');
+      generatedInputElement.id = `checkbox-${todo.id}`;
+      generatedInputElement.setAttribute('hidden', 'hidden');
+      generatedDivcontainer.appendChild(generatedInputElement);
 
-    generatedLiElement.id = todo.id;
-    generatedLiElement.classList.add('todo-item');
-    generatedLiElement.innerText = todo.todoItem;
-    generatedDivcontainer.appendChild(generatedLiElement);
+      generatedCheckboxElement.classList.add('custom-checkbox');
+      generatedCheckboxElement.setAttribute('for', `checkbox-${todo.id}`);
+      generatedDivcontainer.appendChild(generatedCheckboxElement);
 
-    generatedTrashIcon.classList.add('btnTrash', 'fas', 'fa-trash');
-    generatedDivcontainer.appendChild(generatedTrashIcon);
+      if (todoItem.completed) {
+        generatedInputElement.checked = true;
+        generatedLiElement.style.textDecoration = 'line-through';
+        generatedDivcontainer.style.opacity = 0.6;
+      }
 
-    generatedTrashIcon.addEventListener('click', (event) => {
-      deleteTodo(generatedTrashIcon.previousSibling.id);
+      generatedLiElement.id = todo.id;
+      generatedLiElement.classList.add('todo-item');
+      generatedLiElement.innerText = todo.todoItem;
+      generatedDivcontainer.appendChild(generatedLiElement);
+
+      generatedTrashIcon.classList.add('btnTrash', 'fas', 'fa-trash');
+      generatedDivcontainer.appendChild(generatedTrashIcon);
+
+      generatedTrashIcon.addEventListener('click', (event) => {
+        deleteTodo(generatedTrashIcon.previousSibling.id);
+      });
+
+      generatedCheckboxElement.addEventListener('click', (e) => {
+        const checkedTodoId = e.target.parentNode.id;
+        const checkbox = e.target.previousElementSibling;
+
+        handleTodoItemStatus(getSelectedListId(), checkedTodoId, e);
+      });
     });
+  }
 
-    generatedCheckboxElement.addEventListener('click', (e) => {
-      const checkedTodoId = e.target.parentNode.id;
-      const checkbox = e.target.previousElementSibling;
-
-      handleTodoItemStatus(getSelectedListId(), checkedTodoId, e);
-    });
-  });
   todoCountElement.innerText = todoCount;
 };
 
@@ -575,5 +589,5 @@ const setTodoFilter = (todos, filter) => {
       filters[2].classList.add('filter-selected');
       break;
   }
-  return filteredTodos;
+  return filteredTodos.reverse();
 };

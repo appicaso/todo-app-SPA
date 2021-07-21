@@ -8,24 +8,24 @@
 }
 
 :root {
-  --headingbg: rgb(16, 52, 53);
-  --menubg: #f4f4f4;
-  --bodybg: linear-gradient(to top, #ffffff, #fafaf9);
-  --sectionbg: #085543;
+  --headingbg: rgb(8, 40, 74);
+  --menubg: #ffffff;
+  --bodybg: #f4f4f7;
+  --sectionbg: #ffffff;
   --lighttext: #f9f9f9;
   --darktext: rgb(152, 158, 156);
   --darkbg: #0b0425;
   --lightbg: #f4f8fe;
-  --btncolor: #0c4338;
+  --btncolor: rgb(16, 81, 160);
   --btnhovercolor: #178e76;
   --list-item-container-color: #fefefe;
   --list-item-container-hover-color: #3b8079;
-  --addbtnncolor: #199b7d;
+  --addbtnncolor: #0b9b75;
   --ui-buttons-signup: #50808e;
   --ui-buttons-login: rgb(38, 143, 150);
   --font-family: 'Nunito', sans-serif;
   --deletebtn: #b84444;
-  --renamebtn: rgb(9, 143, 96);
+  --renamebtn: rgb(54, 120, 201);
 }
 
 html,
@@ -79,23 +79,24 @@ body {
 }
 
 .list-item-container:hover {
-  background-color: #35857d;
-}
-
-.list-item-container.selected:hover {
-  background-color: #3b8068;
+  background-color: rgb(241, 244, 245);
+  border: 2px solid rgba(16, 81, 160, 0.22);
 }
 
 .list-item-container.selected {
-  background-color: #1ba782;
+  background-color: rgb(16, 81, 160);
 }
 
 .list-item-container.selected li {
-  color: #ffffff;
+  color: rgb(240, 240, 240);
+}
+
+.list-item-container.selected:hover li {
+  color: rgb(240, 240, 240);
 }
 
 .list-item-container:hover li {
-  color: #f5f5ebe6;
+  color: rgb(16, 81, 160);
 }
 
 .list-item {
@@ -172,6 +173,12 @@ body {
   font-weight: 100;
 }
 
+.welcome-message {
+  color: rgb(231, 235, 235);
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
 .menu-container {
   height: 100%;
   grid-area: menu;
@@ -197,17 +204,19 @@ body {
   font-family: var(--font-family);
   font-size: 1.6rem;
   font-weight: 600;
-  width: 300px;
+  width: 100%;
   max-width: 300px;
   padding: 10px;
+  color: #62656c;
 }
 
 .list-id {
-  color: #c9d3cd;
+  color: rgba(55, 65, 58, 0.4);
 }
 
 .list-name:focus {
-  background-color: #188f91;
+  background-color: #186791;
+  color: rgb(201, 203, 201);
 }
 
 .list-info-container {
@@ -219,11 +228,16 @@ body {
   margin: 20px 0px 20px 0px;
 }
 
+.todoaddicon {
+  color: rgb(255, 255, 255);
+}
+
 .todo-item-container {
   width: 100%;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  background-color: rgba(230, 225, 225, 0.1);
-  height: 45px;
+  border: 1px solid rgba(21, 35, 57, 0.1);
+  background-color: rgba(231, 232, 238, 0.283);
+  border-radius: 4px;
+  height: 55px;
   margin-top: 10px;
   display: flex;
   justify-content: space-between;
@@ -233,6 +247,8 @@ body {
 
 .todo-item {
   list-style-type: none;
+  color: rgba(38, 41, 38, 0.92);
+  font-weight: 600;
 }
 
 .todo-items {
@@ -246,14 +262,32 @@ body {
   padding-right: 5%;
 }
 
+.todo-header {
+  font-weight: 500;
+  color: rgba(55, 65, 58, 0.8);
+}
+
+.no-todos-found-container {
+  margin-top: 20px;
+  border: 2px dashed rgb(252, 113, 113);
+  background-color: rgb(249, 176, 176);
+  padding: 10px;
+}
+
+.no-todos-found-alert {
+  color: rgb(244, 77, 77);
+  text-align: center;
+}
+
 .rename-list,
 .delete-list-btn {
-  box-shadow: 0 -1px 20px rgba(14, 101, 85, 0.8);
+  box-shadow: 0 1px 10px rgba(74, 75, 75, 0.4);
   width: 130px;
   height: 50px;
   cursor: pointer;
-  border-radius: 12px;
+  border-radius: 6px;
   border: 1px solid rgba(255, 255, 255, 0.55);
+  font-family: var(--font-family);
   font-size: 0.8em;
   font-weight: 400;
   color: #f0ebeb;
@@ -274,7 +308,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-image: var(--bodybg);
+  background-color: var(--bodybg);
 }
 
 .form-container {
@@ -303,6 +337,20 @@ body {
   width: 100%;
 }
 
+.todos-container {
+  width: 90%;
+  height: 90%;
+  border: 3px solid rgb(243, 245, 243);
+  border-radius: 12px;
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
 .todo-form {
   display: flex;
   flex-direction: column;
@@ -313,21 +361,45 @@ body {
 
 .new-todo-input {
   margin-top: 1em;
+  background-color: rgb(216, 221, 227) !important;
+  border: 5px solid rgb(255, 255, 255) !important;
+  box-shadow: 0px 7px 30px rgba(32, 88, 148, 0.187);
+  margin-bottom: 10px;
+  height: 65px !important;
+  color: rgb(49, 92, 165) !important;
+  font-weight: 700 !important;
+}
+
+.new-todo-input:hover {
+  border: 5px solid rgba(40, 107, 189, 0.413) !important;
+}
+
+.new-todo-input:focus {
+  background-color: rgb(44, 82, 123) !important;
+  border: 5px solid rgb(68, 113, 167) !important;
+  color: white !important;
+}
+
+.new-todo-input:focus + i {
+  color: white !important;
 }
 
 .section-header {
   font-size: 1.2em;
-  font-weight: 500;
+  font-weight: 600;
   margin: 10px 10px;
+  color: #0c4338;
 }
 
 .section {
   min-width: 350px;
   width: 55%;
   margin-top: 4em;
+  margin-bottom: 4em;
   background-color: var(--sectionbg);
-  box-shadow: 0 -1px 20px rgba(14, 101, 88, 0.6);
-  border-radius: 99px 10px 99px 35px;
+  box-shadow: 0 -1px 20px rgba(126, 126, 126, 0.2);
+  border-radius: 35px;
+  border: 1px solid rgba(255, 255, 255, 1);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -340,6 +412,10 @@ body {
   position: absolute;
   margin: auto;
   width: 45%;
+}
+
+.dashboard {
+  background-color: rgb(9, 143, 96);
 }
 
 .top-right-nav {
@@ -370,15 +446,16 @@ body {
   top: 128px;
   left: 60px;
   font-size: 0.86em;
-  font-weight: 600;
+  font-weight: 500;
   font-family: var(--font-family);
   z-index: 100;
+  transition: transform 0.2s;
 }
 
 .addBtn:hover {
   background-color: #1b9b82;
   color: #ffffff;
-  transition: all 0.4s;
+  transform: scale(1.5);
 }
 
 .addBtn i {
@@ -386,7 +463,14 @@ body {
 }
 
 .btnTrash {
+  color: rgb(49, 74, 65);
   cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.btnTrash:hover {
+  color: rgb(16, 81, 160);
+  transform: scale(1.3);
 }
 
 .ctaBtn {
@@ -410,6 +494,8 @@ body {
 
 .form-label {
   margin-top: 0.5em;
+  font-weight: 500;
+  color: #333946;
 }
 
 input[type='text'],
@@ -419,7 +505,7 @@ input[type='email'] {
   margin-bottom: 5px;
   border-radius: 50px;
   height: 50px;
-  border: 2px solid rgb(255, 255, 255);
+  border: 2px solid rgb(228, 226, 226);
   background-color: #f2ecec;
   color: rgb(54, 62, 62);
   width: 70%;
@@ -475,7 +561,11 @@ input[type='checkbox']:checked {
 
 input::placeholder {
   font-weight: 400;
-  color: #bdbcbc;
+  color: rgba(124, 125, 125, 0.488);
+}
+
+input:focus::-webkit-input-placeholder {
+  color: transparent;
 }
 
 .error {
@@ -495,13 +585,13 @@ input::placeholder {
   height: 35px;
   border-radius: 6px;
   cursor: pointer;
-  color: #ffffff;
-  border: 2px solid #ffffff;
+  color: rgb(16, 81, 160);
+  border: 2px solid rgb(16, 81, 160);
 }
 
 .horizontal-divider {
-  border: 1px solid rgba(237, 232, 232, 0.1);
-  width: 50%;
+  border: 1px solid rgba(237, 232, 232, 0.5);
+  width: 90%;
   margin: 15px;
 }
 
@@ -641,7 +731,7 @@ input::placeholder {
   left: 74%;
   margin: auto;
   top: 50%;
-  color: rgb(193, 191, 191);
+  color: rgba(126, 126, 126, 0.543);
 }
 
 .checkbox-wrapper {
@@ -654,12 +744,13 @@ input::placeholder {
   display: block;
   width: 25px;
   height: 25px;
-  background-color: #ddd;
+  background-color: rgb(255, 255, 255);
   border-radius: 50px;
   position: relative;
   transition: background-color 0.4s;
   margin-right: 10px;
   cursor: pointer;
+  box-shadow: 0px 0px 5px rgba(14, 11, 11, 0.2);
 }
 
 input[type='checkbox']:checked ~ .custom-checkbox {
@@ -675,8 +766,9 @@ input[type='checkbox']:checked ~ .custom-checkbox::after {
   position: absolute;
   width: 10px;
   height: 16px;
-  border-right: 5px solid #ffffff;
-  border-bottom: 5px solid #ffffff;
+  border-right: 4px solid #ffffff;
+  border-bottom: 4px solid #ffffff;
+  border-radius: 2px;
   top: 42%;
   left: 45%;
   transform: translate(-50%, -50%) rotateZ(40deg);
@@ -685,9 +777,9 @@ input[type='checkbox']:checked ~ .custom-checkbox::after {
 }
 
 .logo {
-  margin-bottom: 20px;
-  width: 5em;
-  height: 5em;
+  margin-bottom: 15px;
+  width: 5rem;
+  height: 5rem;
 }
 
 .btn-settings {
@@ -700,27 +792,33 @@ input[type='checkbox']:checked ~ .custom-checkbox::after {
   transition: all 0.4s;
 }
 
+.todo-filters {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
 .filter {
   background-color: rgba(219, 220, 220, 0.2);
   font-family: var(--font-family);
   margin: 20px 5px 20px 5px;
-  padding: 9px 20px 9px 20px;
+  padding: 11px 20px 11px 20px;
   border: none;
   border-radius: 50px;
-  color: rgb(255, 255, 255);
+  color: rgb(97, 97, 97);
   cursor: pointer;
+  border: 1px solid rgb(222, 221, 221);
 }
 
 .filter:hover {
-  background-color: rgb(14, 70, 40);
-  color: rgb(255, 255, 255);
+  border: 1.5px solid rgb(16, 81, 160);
 }
 
 .filter-selected {
-  background-color: rgba(219, 220, 220, 1);
+  background-color: rgb(16, 110, 150);
   border: rgb(38, 143, 150);
   font-weight: 700;
-  color: rgb(14, 70, 40);
+  color: rgb(255, 255, 255);
 }
 
 .filter-selected:focus {
@@ -729,6 +827,7 @@ input[type='checkbox']:checked ~ .custom-checkbox::after {
 
 .fa-filter {
   margin-left: 10px;
+  color: #e0e0e0;
 }
 
 .round-icon-container {
@@ -747,6 +846,10 @@ input[type='checkbox']:checked ~ .custom-checkbox::after {
 
 .list-icon {
   font-size: 4em;
+}
+
+.filter-icon {
+  align-self: center;
 }
 
 .submit-btn:hover {
