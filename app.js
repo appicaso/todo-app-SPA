@@ -49,7 +49,7 @@ async function loadNewContent(clickedlink) {
 
     form[0].addEventListener('submit', (event) => {
       event.preventDefault();
-      loginUser(username, password);
+      loginUser(email, password);
     });
   }
 
@@ -105,7 +105,6 @@ async function loadNewContent(clickedlink) {
     });
 
     saveNewListNameBtn.addEventListener('click', (e) => {
-      console.log('clicked');
       saveRenamedListName(getSelectedListId());
       saveNewListNameBtn.style.visibility = 'hidden';
       listNameElement.setAttribute('contentEditable', false);
@@ -163,22 +162,21 @@ const formValidation = () => {
 
   let validationResult = true;
 
-  for (let formField = 0; formField < userForm.length - 2; formField++) {
+  for (let formField = 0; formField < userForm.length - 1; formField++) {
     const input = userForm[formField];
+
     const errorMessage = userForm.querySelector(`.${input.name}-error-message`);
 
-    console.log('Not null = ' + errorMessage !== null);
-    console.log('Not undefined = ' + errorMessage !== undefined);
-    console.log(errorMessage);
-
-    if (errorMessage !== null || errorMessage !== undefined) {
-      console.log(errorMessage);
+    if (errorMessage != null || errorMessage != undefined) {
       errorMessage.classList.remove('error-identified');
     }
 
     if (input.getAttribute('type') == 'text' || input.getAttribute('type') == 'password' || input.getAttribute('type') == 'email') {
       if (input.value === '' || input.value === null) {
+        console.log('empty stings found ');
+        console.log(userForm[formField]);
         displayFormError(userForm[formField], 'This field cannot be empty!');
+
         validationResult = false;
       }
     }
@@ -193,6 +191,8 @@ const formValidation = () => {
 };
 
 const displayFormError = (fieldContainingError, errorMessage) => {
+  console.log('FieldContainingError');
+  console.log(fieldContainingError);
   const inputParentElement = fieldContainingError.parentElement;
   const errorMessageField = inputParentElement.querySelector(`.${fieldContainingError.name}-error-message`);
 
@@ -222,7 +222,7 @@ function createNewUser(inputFields) {
 }
 
 const loginUser = (username, password) => {
-  if (formValidation) {
+  if (formValidation()) {
     getUserObj = registeredUsers.find((user) => username.value === user.email);
 
     if (getUserObj) {
@@ -232,11 +232,11 @@ const loginUser = (username, password) => {
         location.hash = '#dashboard';
         loggedInState(getUserObj);
       } else {
-        displayFormError(username, 'Username Not Found');
+        displayFormError(password, 'The password you entered is incorrect');
       }
+    } else {
+      displayFormError(username, 'No matching username found in our records');
     }
-  } else {
-    displayFormError();
   }
 };
 
@@ -250,7 +250,7 @@ const loggedInState = (userObj) => {
   setTimeout(() => {
     const welcomeMsg = document.querySelector('.welcome-message');
     welcomeMsg.innerText = `Welcome to your dashboard, ${getUserObj.firstName} \n ADD or SELECT lists to get started!`;
-  }, 200);
+  }, 400);
 };
 
 const createNewList = () => {
@@ -364,6 +364,7 @@ const appendTodosToView = (listID, filter) => {
 
   const findMatchingListId = lists.find((list) => list.id === listID.toString());
   const filteredTodos = setTodoFilter(findMatchingListId.todos, filter);
+  console.log(filteredTodos);
   const todoCount = findMatchingListId.todos.length > 0 ? findMatchingListId.todos.length : 0;
 
   // Reset all LI elements containing todos.
@@ -489,16 +490,15 @@ const renameList = (listNameElement) => {
 
 const saveRenamedListName = (listId) => {
   const newListName = document.querySelector('.list-name').innerText;
-  console.log(newListName);
+  let newlistItemText = document.getElementById(listId).firstChild;
   const findList = lists.find((list) => list.id === listId);
   const listIndex = lists.indexOf(findList);
 
   if (findList) {
     lists[listIndex].name = newListName;
+    newlistItemText.innerText = newListName;
     localStorage.setItem('lists', JSON.stringify(lists));
   }
-
-  appendListsToView();
 };
 
 function animateDeletedTodo(deletedTodoId) {
@@ -508,7 +508,7 @@ function animateDeletedTodo(deletedTodoId) {
 
 form[0].addEventListener('submit', (event) => {
   event.preventDefault();
-  loginUser(username, password);
+  loginUser(email, password);
 });
 
 window.addEventListener('hashchange', () => {
@@ -589,5 +589,5 @@ const setTodoFilter = (todos, filter) => {
       filters[2].classList.add('filter-selected');
       break;
   }
-  return filteredTodos.reverse();
+  return filteredTodos.slice().reverse();
 };
