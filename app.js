@@ -42,6 +42,7 @@ async function loadNewContent(clickedlink) {
 
   if (location.hash === '#login') {
     const menu = document.querySelector('.menu-container');
+    const signupBtn = document.querySelector('.signupbtn');
 
     menu.style.visibility = 'hidden';
     logoutBtn.style.visibility = 'hidden';
@@ -50,6 +51,11 @@ async function loadNewContent(clickedlink) {
     form[0].addEventListener('submit', (event) => {
       event.preventDefault();
       loginUser(email, password);
+    });
+
+    signupBtn.addEventListener('click', (event) => {
+      console.log('clicked');
+      location.hash = '#signup';
     });
   }
 
@@ -82,6 +88,25 @@ async function loadNewContent(clickedlink) {
     const listInfoContainer = document.querySelector('.list-info-container');
     const saveNewListNameBtn = document.querySelector('.save-list-name-btn');
     const filters = document.querySelectorAll('.filter');
+    const addTodoContainer = document.querySelector('.new-todo-input');
+    const addTodoBtn = document.querySelector('.todoaddicon');
+    const deleteListConfirmationContainer = document.querySelector('.deletelist-confirmation-container');
+    const confirmBtn = document.querySelector('.delete-confirmation-buttons.confirm');
+    const cancelBtn = document.querySelector('.delete-confirmation-buttons.cancel');
+    const todosSection = document.querySelector('.section.todos');
+
+    confirmBtn.addEventListener('click', (e) => {
+      deleteList(getSelectedListId());
+      deleteListConfirmationContainer.classList.toggle('show');
+      todosSection.classList.toggle('blurred');
+      menu.classList.toggle('blurred');
+    });
+
+    cancelBtn.addEventListener('click', (e) => {
+      deleteListConfirmationContainer.classList.toggle('show');
+      todosSection.classList.toggle('blurred');
+      menu.classList.toggle('blurred');
+    });
 
     form[0].addEventListener('submit', (event) => {
       event.preventDefault();
@@ -89,7 +114,12 @@ async function loadNewContent(clickedlink) {
     });
 
     deleteBtn.addEventListener('click', (e) => {
-      deleteList(getSelectedListId());
+      const deleteListConfirmationContainer = document.querySelector('.deletelist-confirmation-container');
+      const todosSection = document.querySelector('.section.todos');
+
+      deleteListConfirmationContainer.classList.toggle('show');
+      todosSection.classList.toggle('blurred');
+      menu.classList.toggle('blurred');
     });
 
     renameListBtn.addEventListener('click', (e) => {
@@ -118,6 +148,11 @@ async function loadNewContent(clickedlink) {
       filter.addEventListener('click', (e) => {
         appendTodosToView(getSelectedListId(), e.target.innerText);
       });
+    });
+
+    addTodoContainer.addEventListener('focusin', (event) => {
+      addTodoBtn.classList.toggle('fa-rotate-180');
+      console.log('focus');
     });
   }
 
@@ -152,9 +187,15 @@ listContainer.addEventListener('click', (e) => {
 const getSelectedListInfo = () => {
   const listNameElement = document.querySelector('.list-name');
   const listIdElement = document.querySelector('.list-id');
+  const listInfo = getSelectedListName();
 
-  listNameElement.innerText = getSelectedListName();
-  listIdElement.innerText = '#' + getSelectedListId();
+  if (listInfo.includes('#')) {
+    listNameElement.innerText = listInfo;
+    listIdElement.innerText = '#' + getSelectedListId();
+  } else {
+    listNameElement.innerText = '#' + listInfo;
+    listIdElement.innerText = '#' + getSelectedListId();
+  }
 };
 
 const formValidation = () => {
@@ -292,17 +333,17 @@ const appendListsToView = () => {
   //Append all lists to view
   if (getUserLists) {
     for (listIndex = 0; listIndex < getUserLists.length; listIndex++) {
-      const generatedDivcontainer = document.createElement('div');
+      const generatedDivContainer = document.createElement('div');
       const generatedLiElement = document.createElement('li');
 
-      generatedDivcontainer.classList.add('list-item-container');
-      listItems.appendChild(generatedDivcontainer);
+      generatedDivContainer.classList.add('list-item-container');
+      listItems.appendChild(generatedDivContainer);
 
       generatedLiElement.id = getUserLists[listIndex].id;
-      generatedDivcontainer.id = getUserLists[listIndex].id;
+      generatedDivContainer.id = getUserLists[listIndex].id;
       generatedLiElement.classList.add('list-item');
       generatedLiElement.innerText = getUserLists[listIndex].name;
-      generatedDivcontainer.appendChild(generatedLiElement);
+      generatedDivContainer.appendChild(generatedLiElement);
     }
   }
 };
@@ -315,6 +356,7 @@ function clearElementsFromView(element) {
 
 const createNewTodo = () => {
   const currentSelectedList = JSON.parse(localStorage.getItem('selected.listID'));
+  const todoInput = document.querySelector('.new-todo-input');
   const newTodo = document.getElementById('todo').value;
 
   const findMatchingListId = lists.find((list) => list.id === currentSelectedList.toString());
@@ -322,6 +364,7 @@ const createNewTodo = () => {
   findMatchingListId.todos.push({ id: generateUniqueID(), todoItem: newTodo, completed: false });
   localStorage.setItem('lists', JSON.stringify(lists));
   appendTodosToView(currentSelectedList, 'All');
+  todoInput.value = '';
 };
 
 function selectList(selectedListId, selectedListName) {
@@ -364,7 +407,6 @@ const appendTodosToView = (listID, filter) => {
 
   const findMatchingListId = lists.find((list) => list.id === listID.toString());
   const filteredTodos = setTodoFilter(findMatchingListId.todos, filter);
-  console.log(filteredTodos);
   const todoCount = findMatchingListId.todos.length > 0 ? findMatchingListId.todos.length : 0;
 
   // Reset all LI elements containing todos.
@@ -386,39 +428,39 @@ const appendTodosToView = (listID, filter) => {
   } else {
     filteredTodos.forEach((todo) => {
       const todoItem = findMatchingListId.todos.find((todoItem) => todoItem.id === todo.id);
-      const generatedDivcontainer = document.createElement('div');
+      const generatedDivContainer = document.createElement('div');
       const generatedInputElement = document.createElement('input');
       const generatedCheckboxElement = document.createElement('label');
       const generatedLiElement = document.createElement('li');
       const generatedTrashIcon = document.createElement('i');
 
-      generatedDivcontainer.classList.add('todo-item-container');
-      generatedDivcontainer.id = todo.id;
-      todoItems.appendChild(generatedDivcontainer);
+      generatedDivContainer.classList.add('todo-item-container');
+      generatedDivContainer.id = todo.id;
+      todoItems.appendChild(generatedDivContainer);
 
       generatedInputElement.setAttribute('type', 'checkbox');
       generatedInputElement.setAttribute('name', 'check');
       generatedInputElement.id = `checkbox-${todo.id}`;
       generatedInputElement.setAttribute('hidden', 'hidden');
-      generatedDivcontainer.appendChild(generatedInputElement);
+      generatedDivContainer.appendChild(generatedInputElement);
 
       generatedCheckboxElement.classList.add('custom-checkbox');
       generatedCheckboxElement.setAttribute('for', `checkbox-${todo.id}`);
-      generatedDivcontainer.appendChild(generatedCheckboxElement);
+      generatedDivContainer.appendChild(generatedCheckboxElement);
 
       if (todoItem.completed) {
         generatedInputElement.checked = true;
         generatedLiElement.style.textDecoration = 'line-through';
-        generatedDivcontainer.style.opacity = 0.6;
+        generatedDivContainer.style.opacity = 0.6;
       }
 
       generatedLiElement.id = todo.id;
       generatedLiElement.classList.add('todo-item');
       generatedLiElement.innerText = todo.todoItem;
-      generatedDivcontainer.appendChild(generatedLiElement);
+      generatedDivContainer.appendChild(generatedLiElement);
 
       generatedTrashIcon.classList.add('btnTrash', 'fas', 'fa-trash');
-      generatedDivcontainer.appendChild(generatedTrashIcon);
+      generatedDivContainer.appendChild(generatedTrashIcon);
 
       generatedTrashIcon.addEventListener('click', (event) => {
         deleteTodo(generatedTrashIcon.previousSibling.id);
@@ -463,12 +505,8 @@ const deleteList = (selectedList) => {
     lists.splice(listIndex, 1);
     localStorage.setItem('lists', JSON.stringify(lists));
     appendListsToView();
-    section.innerHTML = 'section deleted!';
+    location.hash = '#deleted-list';
   }
-
-  selectList(listItems.firstChild.id, listItems.firstChild.firstChild.innerText);
-  getSelectedListInfo();
-  appendTodosToView(listItems.firstChild.id, 'All');
 };
 
 const renameList = (listNameElement) => {
@@ -567,12 +605,14 @@ const setTodoFilter = (todos, filter) => {
   const filters = document.querySelectorAll('.filter');
   filters.forEach((filter) => {
     filter.classList.remove('filter-selected');
+    filter.classList.remove('fadein-animate');
   });
 
   switch (filter) {
     case 'All':
       filteredTodos = todos;
       filters[0].classList.add('filter-selected');
+      filters[0].classList.toggle('fadein-animate');
       break;
 
     case 'Incomplete':
@@ -580,6 +620,7 @@ const setTodoFilter = (todos, filter) => {
         return todo.completed == false;
       });
       filters[1].classList.add('filter-selected');
+      filters[1].classList.toggle('fadein-animate');
       break;
 
     case 'Completed':
@@ -587,6 +628,7 @@ const setTodoFilter = (todos, filter) => {
         return todo.completed == true;
       });
       filters[2].classList.add('filter-selected');
+      filters[2].classList.toggle('fadein-animate');
       break;
   }
   return filteredTodos.slice().reverse();

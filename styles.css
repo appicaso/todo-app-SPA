@@ -411,7 +411,7 @@ input:focus::-webkit-input-placeholder {
 .todos-container {
   width: 90%;
   height: 90%;
-  border: 3px solid rgb(243, 245, 243);
+  border: 2.5px solid rgba(243, 245, 243, 0.776);
   border-radius: 12px;
   margin-top: 30px;
   display: flex;
@@ -455,7 +455,11 @@ input:focus::-webkit-input-placeholder {
 }
 
 .new-todo-input:focus + i {
-  color: white !important;
+  color: rgb(255, 255, 255) !important;
+  transition: transform 0.2s !important;
+}
+
+.fa-rotate-90 {
 }
 
 .section-header {
@@ -717,6 +721,33 @@ input:focus::-webkit-input-placeholder {
 }
 
 /* BUTTON BOUNCE ANIMATION END */
+
+/* FADE IN ANIMATION start */
+
+.fadein-animate {
+  animation: fadeInAnimation ease 0.4s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+@keyframes fadeInAnimation {
+  0% {
+    background-color: rgba(16, 110, 150, 0);
+  }
+  100% {
+    background-color: rgb(30, 97, 148);
+  }
+}
+
+/* FADE IN ANIMATION END */
+
+animate__flipInX .animate__flipInX {
+  -webkit-backface-visibility: visible !important;
+  backface-visibility: visible !important;
+  -webkit-animation-name: flipInX;
+  animation-name: flipInX;
+}
+
 .settings-btn-container {
   display: flex;
   align-self: center;
@@ -818,9 +849,12 @@ input[type='checkbox']:checked ~ .custom-checkbox::after {
   border: 2.5px solid rgb(16, 81, 160);
 }
 
+.filter:focus {
+  outline: none;
+}
+
 .filter-selected {
-  background-color: rgb(16, 110, 150);
-  border: 2.5px solid rgb(38, 143, 150);
+  border: 2.5px solid rgb(169, 190, 199);
   font-weight: 700;
   color: rgb(255, 255, 255);
 }
@@ -859,4 +893,64 @@ input[type='checkbox']:checked ~ .custom-checkbox::after {
 .submit-btn:hover {
   background-color: rgb(232, 240, 235);
   color: rgb(14, 70, 40);
+}
+
+.deletelist-confirmation-container {
+  display: none;
+}
+
+.deletelist-confirmation-container.show {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-29%, -29%);
+  width: 40%;
+  height: 30%;
+  background-color: rgb(8, 40, 74);
+  box-shadow: 0px 1px 40px rgba(8, 40, 74, 0.372);
+  border-radius: 20px;
+}
+
+.delete-confirmation-buttons {
+  margin-top: 20px;
+  padding: 15px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.delete-confirmation-buttons.confirm {
+  background-color: rgb(16, 81, 160);
+  border: none;
+  color: rgba(246, 247, 246, 0.8);
+  margin-right: 5px;
+}
+
+.delete-confirmation-buttons.cancel {
+  background-color: rgb(234, 234, 235);
+  border: none;
+  color: rgb(8, 40, 74);
+}
+
+.blurred {
+  filter: blur(10px);
+  pointer-events: none;
+  transition: ease-in 0.2s;
+}
+
+.delete-confirmation-text {
+  color: rgb(255, 255, 255);
+  margin-bottom: 20px;
+  font-size: 1.2em;
+}
+
+.delete-confirmation-warning {
+  color: rgb(245, 142, 142);
+}
+
+.list-deleted-text {
+  color: rgb(38, 143, 150);
 }
