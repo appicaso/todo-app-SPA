@@ -9,6 +9,7 @@ const logoutBtn = document.querySelector('.logout-btn-container');
 const settingsBtn = document.querySelector('.settings-btn-container');
 const signupBtn = document.querySelector('.signupbtn');
 const inputFields = document.getElementsByTagName('input');
+const topRightNav = document.querySelector('.top-right-nav');
 let currentUser;
 let getUserObj;
 const userLists = [];
@@ -32,8 +33,9 @@ async function loadNewContent(clickedlink) {
   content.innerHTML = await fetchHtml(`${clickedlink}.html`);
 
   if (location.hash === '#signup') {
-    form[0].addEventListener('submit', (event) => {
-      event.preventDefault();
+    content.style.height = '100%';
+    form[0].addEventListener('submit', (e) => {
+      e.preventDefault();
       if (formValidation()) {
         registerUser();
       }
@@ -43,18 +45,20 @@ async function loadNewContent(clickedlink) {
   if (location.hash === '#login') {
     const menu = document.querySelector('.menu-container');
     const signupBtn = document.querySelector('.signupbtn');
+    const bodyWrapper = document.querySelector('.body-wrapper');
 
-    menu.style.visibility = 'hidden';
-    logoutBtn.style.visibility = 'hidden';
-    settingsBtn.style.visibility = 'hidden';
+    bodyWrapper.style.gridTemplateAreas =
+      '"head head head head head head head head head head head head" "section section section section section section section section section section section section"';
 
-    form[0].addEventListener('submit', (event) => {
-      event.preventDefault();
+    menu.style.display = 'none';
+    topRightNav.style.display = 'none';
+
+    form[0].addEventListener('submit', (e) => {
+      e.preventDefault();
       loginUser(email, password);
     });
 
-    signupBtn.addEventListener('click', (event) => {
-      console.log('clicked');
+    signupBtn.addEventListener('click', (e) => {
       location.hash = '#signup';
     });
   }
@@ -64,8 +68,8 @@ async function loadNewContent(clickedlink) {
   }
 
   if (location.hash === '#lists') {
-    form[0].addEventListener('submit', (event) => {
-      event.preventDefault();
+    form[0].addEventListener('submit', (e) => {
+      e.preventDefault();
       createNewList();
       location.hash = 'todo';
     });
@@ -94,6 +98,7 @@ async function loadNewContent(clickedlink) {
     const confirmBtn = document.querySelector('.delete-confirmation-buttons.confirm');
     const cancelBtn = document.querySelector('.delete-confirmation-buttons.cancel');
     const todosSection = document.querySelector('.section.todos');
+    const todoIconContainer = document.querySelector('.todoaddicon-container');
 
     confirmBtn.addEventListener('click', (e) => {
       deleteList(getSelectedListId());
@@ -108,8 +113,12 @@ async function loadNewContent(clickedlink) {
       menu.classList.toggle('blurred');
     });
 
-    form[0].addEventListener('submit', (event) => {
-      event.preventDefault();
+    form[0].addEventListener('submit', (e) => {
+      e.preventDefault();
+      createNewTodo();
+    });
+
+    todoIconContainer.addEventListener('click', (e) => {
       createNewTodo();
     });
 
@@ -146,13 +155,13 @@ async function loadNewContent(clickedlink) {
 
     filters.forEach((filter) => {
       filter.addEventListener('click', (e) => {
-        appendTodosToView(getSelectedListId(), e.target.innerText);
+        const filterAll = e.target.innerText;
+        appendTodosToView(getSelectedListId(), filterAll);
       });
     });
 
-    addTodoContainer.addEventListener('focusin', (event) => {
-      addTodoBtn.classList.toggle('fa-rotate-180');
-      console.log('focus');
+    addTodoContainer.addEventListener('focusin', (e) => {
+      addTodoBtn.classList.toggle('fa-rotate-90');
     });
   }
 
@@ -164,8 +173,7 @@ function animateSection(section) {
     section.classList.remove('animate__animated', 'animate__bounceInUp');
     section.classList.add('animate__animated', 'animate__bounceInUp');
   } else {
-    section.classList.add('animate__animated');
-    section.classList.add('animate__bounceInUp');
+    section.classList.add('animate__animated', 'animate__bounceInUp');
   }
 }
 
@@ -212,12 +220,16 @@ const formValidation = () => {
       errorMessage.classList.remove('error-identified');
     }
 
-    if (input.getAttribute('type') == 'text' || input.getAttribute('type') == 'password' || input.getAttribute('type') == 'email') {
+    if (input.getAttribute('type') == 'text' || input.getAttribute('type') == 'email') {
       if (input.value === '' || input.value === null) {
-        console.log('empty stings found ');
-        console.log(userForm[formField]);
         displayFormError(userForm[formField], 'This field cannot be empty!');
+        validationResult = false;
+      }
+    }
 
+    if (input.getAttribute('type') == 'password') {
+      if (input.value === '' || input.value === null) {
+        displayFormError(userForm[formField], 'Enter a password for your account');
         validationResult = false;
       }
     }
@@ -269,7 +281,6 @@ const loginUser = (username, password) => {
     if (getUserObj) {
       if (getUserObj.email === username.value && getUserObj.password === password.value) {
         currentUser = getUserObj.email;
-        console.log('user is Logged in!');
         location.hash = '#dashboard';
         loggedInState(getUserObj);
       } else {
@@ -282,16 +293,23 @@ const loginUser = (username, password) => {
 };
 
 const loggedInState = (userObj) => {
+  const bodyWrapper = document.querySelector('.body-wrapper');
+  const content = document.querySelector('.main-content');
+
+  bodyWrapper.style.gridTemplateAreas =
+    '"head head head head head head head head head head toprightnav toprightnav" "menu menu section section section section section section section section section section"';
+
+  topRightNav.style.display = 'flex';
+  menu.style.display = 'block';
   menu.style.visibility = 'visible';
-  logoutBtn.style.visibility = 'visible';
-  settingsBtn.style.visibility = 'visible';
+  content.style.height = '100%';
 
   appendListsToView();
 
   setTimeout(() => {
     const welcomeMsg = document.querySelector('.welcome-message');
     welcomeMsg.innerText = `Welcome to your dashboard, ${getUserObj.firstName} \n ADD or SELECT lists to get started!`;
-  }, 400);
+  }, 300);
 };
 
 const createNewList = () => {
@@ -307,7 +325,8 @@ const createNewList = () => {
 
   setTimeout(() => {
     getSelectedListInfo();
-  }, 100);
+    setTodoFilter(newListObj.todos, 'All');
+  }, 200);
 };
 
 function generateUniqueID() {
@@ -328,7 +347,10 @@ const appendListsToView = () => {
   // Reset all LI elements containing Lists.
   clearElementsFromView(listItems);
 
-  const getUserLists = lists.filter((listItem) => listItem.submitBy === getUserObj.email);
+  const getUserLists = lists
+    .slice()
+    .reverse()
+    .filter((listItem) => listItem.submitBy === getUserObj.email);
 
   //Append all lists to view
   if (getUserLists) {
@@ -462,7 +484,7 @@ const appendTodosToView = (listID, filter) => {
       generatedTrashIcon.classList.add('btnTrash', 'fas', 'fa-trash');
       generatedDivContainer.appendChild(generatedTrashIcon);
 
-      generatedTrashIcon.addEventListener('click', (event) => {
+      generatedTrashIcon.addEventListener('click', (e) => {
         deleteTodo(generatedTrashIcon.previousSibling.id);
       });
 
@@ -544,13 +566,14 @@ function animateDeletedTodo(deletedTodoId) {
   deletedTodoDiv.classList.add('animate__animated', 'animate__bounceOutRight');
 }
 
-form[0].addEventListener('submit', (event) => {
-  event.preventDefault();
+form[0].addEventListener('submit', (e) => {
+  e.preventDefault();
   loginUser(email, password);
 });
 
 window.addEventListener('hashchange', () => {
   const clickedlink = location.hash.substr(1);
+  const section = document.querySelector('.section');
   loadNewContent(clickedlink);
   animateSection(section);
 });
@@ -577,7 +600,7 @@ logoutBtn.addEventListener('click', (e) => {
   console.log('user logged out!');
 });
 
-signupBtn.addEventListener('click', (event) => {
+signupBtn.addEventListener('click', (e) => {
   console.log('clicked');
   location.hash = '#signup';
 });
@@ -612,7 +635,7 @@ const setTodoFilter = (todos, filter) => {
     case 'All':
       filteredTodos = todos;
       filters[0].classList.add('filter-selected');
-      filters[0].classList.toggle('fadein-animate');
+      filters[0].classList.add('fadein-animate');
       break;
 
     case 'Incomplete':
@@ -620,7 +643,7 @@ const setTodoFilter = (todos, filter) => {
         return todo.completed == false;
       });
       filters[1].classList.add('filter-selected');
-      filters[1].classList.toggle('fadein-animate');
+      filters[1].classList.add('fadein-animate');
       break;
 
     case 'Completed':
@@ -628,7 +651,7 @@ const setTodoFilter = (todos, filter) => {
         return todo.completed == true;
       });
       filters[2].classList.add('filter-selected');
-      filters[2].classList.toggle('fadein-animate');
+      filters[2].classList.add('fadein-animate');
       break;
   }
   return filteredTodos.slice().reverse();
