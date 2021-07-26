@@ -1,6 +1,14 @@
+/*
+* Prefixed by https://autoprefixer.github.io
+* PostCSS: v7.0.29,
+* Autoprefixer: v9.7.6
+* Browsers: last 4 version
+*/
+
 *,
 *::after,
 *::before {
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -62,7 +70,11 @@ body {
 }
 
 .lists {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
 }
 
@@ -74,11 +86,18 @@ body {
   height: 60px;
   background-color: var(--list-item-container-color);
   margin-bottom: 17px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   cursor: pointer;
   border-radius: 6px;
+  -webkit-box-shadow: 0px 2px 4px rgb(25 14 94 / 10%);
   box-shadow: 0px 2px 4px rgb(25 14 94 / 10%);
   border: 1px solid rgba(106, 181, 127, 0.2);
   font-family: var(--font-family);
@@ -91,6 +110,8 @@ body {
 
 .list-item-container.selected {
   background-color: rgb(16, 81, 160);
+  -webkit-transition: all 0.4s ease-out;
+  -o-transition: all 0.4s ease-out;
   transition: all 0.4s ease-out;
 }
 
@@ -114,14 +135,18 @@ body {
   color: var(--darktext);
   white-space: nowrap;
   overflow: hidden;
+  -o-text-overflow: ellipsis;
   text-overflow: ellipsis;
   padding: 1rem;
 }
 
 .body-wrapper {
   height: 100%;
+  display: -ms-grid;
   display: grid;
+  -ms-grid-columns: 1fr 0px 1fr 0px 1fr 0px 1fr 0px 1fr 0px 1fr 0px 1fr 0px 1fr 0px 1fr 0px 1fr 0px 1fr 0px 1fr;
   grid-template-columns: repeat(12, 1fr);
+  -ms-grid-rows: 100px 0px auto;
   grid-template-rows: 100px auto;
   gap: 0px 0px;
   grid-template-areas:
@@ -130,12 +155,25 @@ body {
 }
 
 .heading {
+  -ms-grid-row: 1;
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 23;
   grid-area: head;
   background-color: var(--headingbg);
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
+  position: -webkit-sticky;
   position: sticky;
   top: 0;
   z-index: 1000;
@@ -144,8 +182,14 @@ body {
 
 .logout-btn-container {
   grid-area: logout;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   justify-self: center;
   align-self: center;
@@ -205,8 +249,14 @@ body {
   margin: 10px 0px 10px 0px;
   width: 100%;
   height: 100px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
 }
 
@@ -234,9 +284,18 @@ body {
 }
 
 .list-info-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
   flex-direction: row;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
   justify-content: space-between;
   width: 90%;
   margin: 20px 0px 20px 0px;
@@ -253,8 +312,14 @@ body {
   border-radius: 4px;
   height: 55px;
   margin-top: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
   justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   padding: 0px 25px 0px 25px;
 }
@@ -271,7 +336,11 @@ body {
 
 .todo-controls {
   width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
   justify-content: flex-end;
   padding-right: 5%;
 }
@@ -296,6 +365,7 @@ body {
 
 .rename-list,
 .delete-list-btn {
+  -webkit-box-shadow: 0 1px 10px rgba(74, 75, 75, 0.4);
   box-shadow: 0 1px 10px rgba(74, 75, 75, 0.4);
   width: 130px;
   height: 50px;
@@ -326,10 +396,22 @@ body {
 }
 
 .main-content {
+  -ms-grid-row: 3;
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 23;
   grid-area: section;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   background-color: var(--bodybg);
   height: 88vh;
@@ -337,7 +419,11 @@ body {
 
 .form-container {
   width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   position: relative;
 }
@@ -358,6 +444,8 @@ input[type='email'] {
   max-width: 60%;
   height: 3.7rem;
   font-family: var(--font-family);
+  -webkit-transition: all 0.2s ease-out;
+  -o-transition: all 0.2s ease-out;
   transition: all 0.2s ease-out;
 }
 
@@ -366,6 +454,8 @@ input[type='password']:focus,
 input[type='email']:focus {
   outline: none;
   border: 4px solid rgba(21, 184, 108, 0.6);
+  -webkit-transition: all 0.16s ease-out;
+  -o-transition: all 0.16s ease-out;
   transition: all 0.16s ease-out;
 }
 
@@ -384,6 +474,7 @@ input[type='submit'] {
   width: 400px;
   margin-top: 40px;
   max-width: 200px;
+  -webkit-box-shadow: 0 4px 3px rgba(25, 14, 94, 0.2);
   box-shadow: 0 4px 3px rgba(25, 14, 94, 0.2);
   cursor: pointer;
 }
@@ -393,10 +484,12 @@ input[type='submit']:hover {
 }
 
 input[type='checkbox'] {
+  -moz-appearance: none;
   appearance: none;
   -webkit-appearance: none;
   background-color: #fafafa;
   border: 1px solid #cacece;
+  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05);
   padding: 9px;
   border-radius: 3px;
@@ -405,6 +498,26 @@ input[type='checkbox'] {
 
 input[type='checkbox']:checked {
   background-color: green;
+}
+
+input::-webkit-input-placeholder {
+  font-weight: 400;
+  color: rgba(124, 125, 125, 0.488);
+}
+
+input::-moz-placeholder {
+  font-weight: 400;
+  color: rgba(124, 125, 125, 0.488);
+}
+
+input:-ms-input-placeholder {
+  font-weight: 400;
+  color: rgba(124, 125, 125, 0.488);
+}
+
+input::-ms-input-placeholder {
+  font-weight: 400;
+  color: rgba(124, 125, 125, 0.488);
 }
 
 input::placeholder {
@@ -417,9 +530,18 @@ input:focus::-webkit-input-placeholder {
 }
 
 .new-list-form {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   width: 100%;
   margin-top: 30px;
@@ -427,9 +549,18 @@ input:focus::-webkit-input-placeholder {
 
 .login-form {
   margin-top: 1em;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   width: 100%;
 }
@@ -439,9 +570,18 @@ input:focus::-webkit-input-placeholder {
   height: 90%;
   border: 2.5px solid rgba(243, 245, 243, 0.776);
   border-radius: 12px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
   padding-top: 30px;
   padding-bottom: 30px;
@@ -449,9 +589,18 @@ input:focus::-webkit-input-placeholder {
 }
 
 .todo-form {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   width: 100%;
 }
@@ -460,16 +609,21 @@ input:focus::-webkit-input-placeholder {
   margin-top: 1em;
   background-color: rgb(207, 216, 227) !important;
   border: 5px solid rgb(255, 255, 255) !important;
+  -webkit-box-shadow: 0px 7px 30px rgba(32, 88, 148, 0.132);
   box-shadow: 0px 7px 30px rgba(32, 88, 148, 0.132);
   margin-bottom: 10px;
   height: 65px !important;
   color: rgb(49, 92, 165) !important;
   font-weight: 700 !important;
+  -webkit-transition: ease-in 0.2s;
+  -o-transition: ease-in 0.2s;
   transition: ease-in 0.2s;
 }
 
 .new-todo-input:hover {
   border: 5px solid rgba(40, 107, 189, 0.749) !important;
+  -webkit-transition: ease-in 0.3s;
+  -o-transition: ease-in 0.3s;
   transition: ease-in 0.3s;
   cursor: pointer;
 }
@@ -478,12 +632,18 @@ input:focus::-webkit-input-placeholder {
   background-color: rgb(44, 82, 123) !important;
   border: 5px solid rgb(68, 113, 167) !important;
   color: white !important;
+  -webkit-transition: ease-in 0.3s;
+  -o-transition: ease-in 0.3s;
   transition: ease-in 0.3s;
 }
 
 .new-todo-input:focus + div > i {
   color: rgb(255, 255, 255) !important;
+  -webkit-transition: -webkit-transform 0.2s !important;
+  transition: -webkit-transform 0.2s !important;
+  -o-transition: transform 0.2s !important;
   transition: transform 0.2s !important;
+  transition: transform 0.2s, -webkit-transform 0.2s !important;
 }
 
 .section-header {
@@ -499,11 +659,19 @@ input:focus::-webkit-input-placeholder {
   margin-top: 4em;
   margin-bottom: 4em;
   background-color: var(--sectionbg);
+  -webkit-box-shadow: 0 -1px 20px rgba(126, 126, 126, 0.2);
   box-shadow: 0 -1px 20px rgba(126, 126, 126, 0.2);
   border-radius: 35px;
   border: 1px solid rgba(255, 255, 255, 1);
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   padding: 50px 0px 50px 0px;
   color: #ffffff;
@@ -524,11 +692,18 @@ input:focus::-webkit-input-placeholder {
   grid-area: toprightnav;
   background-color: var(--headingbg);
   width: 100%;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
   flex-direction: row;
+  -ms-flex-pack: distribute;
   justify-content: space-around;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   padding-left: 75px;
   padding-right: 50px;
+  position: -webkit-sticky;
   position: sticky;
   top: 0;
   z-index: 1000;
@@ -543,6 +718,7 @@ input:focus::-webkit-input-placeholder {
   height: 60px;
   border-radius: 50px;
   border: none;
+  -webkit-box-shadow: 0 0px 10px rgba(7, 50, 45, 0.5);
   box-shadow: 0 0px 10px rgba(7, 50, 45, 0.5);
   cursor: pointer;
   position: fixed;
@@ -552,13 +728,21 @@ input:focus::-webkit-input-placeholder {
   font-weight: 500;
   font-family: var(--font-family);
   z-index: 100;
+  -webkit-transition: -webkit-transform 2s;
+  transition: -webkit-transform 2s;
+  -o-transition: transform 2s;
   transition: transform 2s;
+  transition: transform 2s, -webkit-transform 2s;
 }
 
 .addBtn:hover {
   background-color: #22b093;
   color: #ffffff;
+  -webkit-transform: scale(1.5);
+  -ms-transform: scale(1.5);
   transform: scale(1.5);
+  -webkit-transition: all 0.4s;
+  -o-transition: all 0.4s;
   transition: all 0.4s;
 }
 
@@ -569,15 +753,23 @@ input:focus::-webkit-input-placeholder {
 .btnTrash {
   color: rgb(49, 74, 65);
   cursor: pointer;
+  -webkit-transition: -webkit-transform 0.2s;
+  transition: -webkit-transform 0.2s;
+  -o-transition: transform 0.2s;
   transition: transform 0.2s;
+  transition: transform 0.2s, -webkit-transform 0.2s;
 }
 
 .btnTrash:hover {
   color: rgb(16, 81, 160);
+  -webkit-transform: scale(1.3);
+  -ms-transform: scale(1.3);
   transform: scale(1.3);
 }
 
 .ctaBtn {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   margin-top: 20px;
 }
@@ -590,9 +782,18 @@ input:focus::-webkit-input-placeholder {
 .signupform > *,
 .authentification > * {
   margin-top: 30px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
   width: 65%;
 }
@@ -752,9 +953,21 @@ input:focus::-webkit-input-placeholder {
 /* FADE IN ANIMATION start */
 
 .fadein-animate {
+  -webkit-animation: fadeInAnimation ease 0.4s;
   animation: fadeInAnimation ease 0.4s;
+  -webkit-animation-iteration-count: 1;
   animation-iteration-count: 1;
+  -webkit-animation-fill-mode: forwards;
   animation-fill-mode: forwards;
+}
+
+@-webkit-keyframes fadeInAnimation {
+  0% {
+    background-color: rgba(16, 110, 150, 0);
+  }
+  100% {
+    background-color: rgb(46, 128, 191);
+  }
 }
 
 @keyframes fadeInAnimation {
@@ -776,6 +989,8 @@ animate__flipInX .animate__flipInX {
 }
 
 .settings-btn-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   align-self: center;
   justify-self: flex-end;
@@ -784,14 +999,24 @@ animate__flipInX .animate__flipInX {
 .add-todo-form-group {
   position: relative;
   width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
 }
 
 .todoaddicon-container {
   position: absolute;
+  -ms-flex-item-align: end;
   align-self: flex-end;
   right: 24%;
   margin: auto;
@@ -799,13 +1024,24 @@ animate__flipInX .animate__flipInX {
   border-radius: 100px;
   width: 2rem;
   height: 2rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
 }
 
 .checkbox-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
   flex-direction: row;
   margin-top: 30px;
 }
@@ -817,9 +1053,12 @@ animate__flipInX .animate__flipInX {
   background-color: rgb(255, 255, 255);
   border-radius: 50px;
   position: relative;
+  -webkit-transition: background-color 0.4s;
+  -o-transition: background-color 0.4s;
   transition: background-color 0.4s;
   margin-right: 10px;
   cursor: pointer;
+  -webkit-box-shadow: 0px 0px 5px rgba(14, 11, 11, 0.2);
   box-shadow: 0px 0px 5px rgba(14, 11, 11, 0.2);
 }
 
@@ -841,8 +1080,12 @@ input[type='checkbox']:checked ~ .custom-checkbox::after {
   border-radius: 2px;
   top: 44%;
   left: 49%;
+  -webkit-transform: translate(-50%, -50%) rotateZ(40deg);
+  -ms-transform: translate(-50%, -50%) rotate(40deg);
   transform: translate(-50%, -50%) rotateZ(40deg);
   opacity: 0;
+  -webkit-transition: all 0.2s;
+  -o-transition: all 0.2s;
   transition: all 0.2s;
 }
 
@@ -860,12 +1103,18 @@ input[type='checkbox']:checked ~ .custom-checkbox::after {
 
 .btn-settings:hover {
   color: var(--btnhovercolor);
+  -webkit-transition: all 0.4s;
+  -o-transition: all 0.4s;
   transition: all 0.4s;
 }
 
 .todo-filters {
   width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
 }
 
@@ -882,6 +1131,8 @@ input[type='checkbox']:checked ~ .custom-checkbox::after {
 
 .filter:hover {
   border: 2.5px solid rgb(74, 128, 194);
+  -webkit-transition: all 0.66s;
+  -o-transition: all 0.66s;
   transition: all 0.66s;
 }
 
@@ -911,10 +1162,17 @@ input[type='checkbox']:checked ~ .custom-checkbox::after {
   width: 100px;
   height: 100px;
   border-radius: 50%;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   margin-bottom: 1em;
+  -webkit-box-shadow: 0 -1px 20px rgba(14, 11, 11, 0.2);
   box-shadow: 0 -1px 20px rgba(14, 11, 11, 0.2);
   border: 5px solid white;
 }
@@ -924,6 +1182,8 @@ input[type='checkbox']:checked ~ .custom-checkbox::after {
 }
 
 .filter-icon {
+  -ms-flex-item-align: center;
+  -ms-grid-row-align: center;
   align-self: center;
 }
 
@@ -937,17 +1197,29 @@ input[type='checkbox']:checked ~ .custom-checkbox::after {
 }
 
 .deletelist-confirmation-container.show {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
   position: fixed;
   top: 50%;
   left: 50%;
+  -webkit-transform: translate(-29%, -29%);
+  -ms-transform: translate(-29%, -29%);
   transform: translate(-29%, -29%);
   width: 40%;
   height: 30%;
   background-color: rgb(8, 40, 74);
+  -webkit-box-shadow: 0px 1px 40px rgba(8, 40, 74, 0.372);
   box-shadow: 0px 1px 40px rgba(8, 40, 74, 0.372);
   border-radius: 20px;
 }
@@ -973,8 +1245,11 @@ input[type='checkbox']:checked ~ .custom-checkbox::after {
 }
 
 .blurred {
+  -webkit-filter: blur(10px);
   filter: blur(10px);
   pointer-events: none;
+  -webkit-transition: ease-in 0.2s;
+  -o-transition: ease-in 0.2s;
   transition: ease-in 0.2s;
 }
 
