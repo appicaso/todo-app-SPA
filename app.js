@@ -30,15 +30,22 @@ async function fetchHtml(url) {
 
 async function loadNewContent(clickedlink) {
   const content = document.querySelector('.main-content');
+
   content.innerHTML = await fetchHtml(`${clickedlink}.html`);
 
   if (location.hash === '#signup') {
+    const loginBtn = document.querySelector('.loginbtn');
+
     content.style.height = '100%';
     form[0].addEventListener('submit', (e) => {
       e.preventDefault();
       if (formValidation()) {
         registerUser();
       }
+    });
+
+    loginBtn.addEventListener('click', (e) => {
+      location.hash = '#login';
     });
   }
 
@@ -69,8 +76,22 @@ async function loadNewContent(clickedlink) {
 
   if (location.hash === '#lists') {
     form[0].addEventListener('submit', (e) => {
+      const newListName = document.getElementById('list').value;
+
       e.preventDefault();
-      createNewList();
+
+      if (!listNameExists(newListName)) {
+        createNewList();
+      } else {
+        const duplicateListNameError = document.querySelector('.list-name-error');
+
+        duplicateListNameError.innerText = `${newListName} already exists, please choose a different name for your new list`;
+        duplicateListNameError.classList.add('duplicatelist-error-message');
+        duplicateListNameError.style.visibility = 'visible';
+
+        return;
+      }
+
       location.hash = 'todo';
     });
   }
@@ -206,6 +227,16 @@ const getSelectedListInfo = () => {
   }
 };
 
+const listNameExists = (newListName) => {
+  const currentListNames = lists.filter((listItem) => listItem.submitBy === getUserObj.email).map((list) => list.name);
+
+  if (currentListNames.includes(newListName)) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
 const formValidation = () => {
   const userForm = document.querySelector('form');
 
@@ -244,8 +275,6 @@ const formValidation = () => {
 };
 
 const displayFormError = (fieldContainingError, errorMessage) => {
-  console.log('FieldContainingError');
-  console.log(fieldContainingError);
   const inputParentElement = fieldContainingError.parentElement;
   const errorMessageField = inputParentElement.querySelector(`.${fieldContainingError.name}-error-message`);
 
@@ -259,7 +288,6 @@ const registerUser = () => {
 
   registeredUsers.push(newUser);
   localStorage.setItem('users', JSON.stringify(registeredUsers));
-  console.log('user is registered!');
   location.hash = '#login';
 };
 
@@ -309,7 +337,7 @@ const loggedInState = (userObj) => {
   setTimeout(() => {
     const welcomeMsg = document.querySelector('.welcome-message');
     welcomeMsg.innerText = `Welcome to your dashboard, ${getUserObj.firstName} \n ADD or SELECT lists to get started!`;
-  }, 300);
+  }, 100);
 };
 
 const createNewList = () => {
@@ -338,7 +366,7 @@ function createListObj(listName) {
   return {
     id: generateUniqueID(),
     submitBy: getUserObj.email,
-    name: '#' + listName,
+    name: listName,
     todos: [],
   };
 }
@@ -364,7 +392,7 @@ const appendListsToView = () => {
       generatedLiElement.id = getUserLists[listIndex].id;
       generatedDivContainer.id = getUserLists[listIndex].id;
       generatedLiElement.classList.add('list-item');
-      generatedLiElement.innerText = getUserLists[listIndex].name;
+      generatedLiElement.innerText = `#${getUserLists[listIndex].name}`;
       generatedDivContainer.appendChild(generatedLiElement);
     }
   }
@@ -597,15 +625,14 @@ settingsBtn.addEventListener('click', (e) => {
 
 logoutBtn.addEventListener('click', (e) => {
   location.hash = '#login';
-  console.log('user logged out!');
 });
 
 signupBtn.addEventListener('click', (e) => {
-  console.log('clicked');
   location.hash = '#signup';
 });
 
 const loadUserData = (inputFields) => {
+  console.log(inputFields);
   inputFields[0].value = getUserObj.firstName;
   inputFields[1].value = getUserObj.lastName;
   inputFields[2].value = getUserObj.email;
@@ -626,6 +653,7 @@ const saveSettings = () => {
 const setTodoFilter = (todos, filter) => {
   let filteredTodos;
   const filters = document.querySelectorAll('.filter');
+
   filters.forEach((filter) => {
     filter.classList.remove('filter-selected');
     filter.classList.remove('fadein-animate');
